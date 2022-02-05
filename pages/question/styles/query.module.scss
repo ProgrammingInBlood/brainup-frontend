@@ -1,0 +1,162 @@
+.container {
+  min-height: 100vh;
+  background-color: #f1f5f8;
+  padding-bottom: 50px;
+}
+
+.header__text {
+  margin-left: 20px;
+  h3 {
+    margin: 0;
+    font-family: "proxima-bold";
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+  p {
+    margin: 0;
+    padding-top: 5px;
+    font-family: "proxima-regular";
+    font-size: 12px;
+  }
+}
+
+.header {
+  width: 100%;
+  border-bottom: 2px solid rgb(235, 235, 235);
+  padding: 20px;
+  font-family: "proxima-bold";
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+}
+
+.questionTextConatiner {
+  padding: 20px;
+  background-color: white;
+
+  p {
+    font-family: "proxima-regular";
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    // padding: 0 18px;
+  }
+}
+
+.authorDetails {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: white;
+
+  h4 {
+    margin: 0;
+    margin-left: 10px;
+    font-family: "proxima-bold";
+    color: rgb(95, 95, 95);
+    font-size: 13px;
+  }
+}
+
+.liveWatching {
+  background-color: white;
+
+  padding: 20px;
+  p {
+    font-family: "proxima-regular";
+    font-size: 13px;
+    color: rgb(95, 95, 95);
+    margin: 0;
+    padding-bottom: 5px;
+  }
+}
+.liveavatarcontainer {
+  margin-right: 10px;
+}
+
+.liveusers__avatar {
+  border-radius: 50%;
+}
+
+.authorDetails__avatar {
+  border-radius: 50%;
+}
+
+.answers {
+  padding: 20px 10px;
+}
+
+.answer {
+  padding: 20px;
+  width: 100%;
+  background-color: white;
+  margin: 20px 0;
+  border-radius: 15px;
+  p {
+    user-select: none;
+  }
+}
+
+.answer__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  cursor: pointer;
+  user-select: none;
+
+  h3 {
+    margin: 0;
+    margin-left: 10px;
+    font-size: 14px;
+    font-family: "proxima-bold";
+    user-select: none;
+  }
+}
+.answer__actions {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  border-top: 1px solid #f1f5f8;
+  padding-top: 20px;
+}
+
+.answerButtonConatiner {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+.answerButton {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  border: 0;
+  margin: 10px 0;
+
+  border-radius: 20px;
+  padding: 13px 10px;
+  cursor: pointer;
+  font-family: "proxima-bold";
+  font-weight: 700;
+  color: white;
+  background-color: #60d399;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: #30b16f;
+  }
+}

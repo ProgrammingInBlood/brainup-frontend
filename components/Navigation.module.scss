@@ -1,0 +1,33 @@
+.conatiner {
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100%;
+  bottom: 00px;
+  padding: 0px 50px;
+  color: grey;
+  //   border-radius: 20px;
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
+}
+.items {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 10px 20px;
+  font-family: "proxima-nova", sans-serif;
+  font-weight: 700;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.svg {
+  svg {
+    fill: gray !important;
+  }
+}

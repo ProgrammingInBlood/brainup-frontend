@@ -1,0 +1,122 @@
+.conatiner {
+  background-color: #57b2f8;
+  //   background-image: url(/images/bg.jpg);
+  min-height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 100px;
+  @media (max-width: 768px) {
+    padding: 10px;
+    padding-bottom: 100px;
+  }
+}
+
+.searchBar {
+  width: 100%;
+  flex: 1;
+  padding: 10px 50px;
+  display: flex;
+  position: relative;
+  span {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 65px;
+    top: 20px;
+    z-index: 2;
+    @media (max-width: 768px) {
+      right: 25px;
+    }
+  }
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+}
+
+.logo {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobileLogo {
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.search {
+  flex: 1;
+  padding: 10px 20px;
+  padding-right: 50px;
+  border-radius: 20px;
+  outline: none;
+  border-width: 0;
+  font-family: "proxima-regular";
+  font-size: 16px;
+  background-color: #ebf2f7;
+}
+
+.live__item {
+  background: rgba(255, 255, 255, 0.226);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin: 20px 0;
+  color: white;
+}
+
+.live__user {
+  display: flex;
+  align-items: center;
+  h3 {
+    font-family: "proxima-bold";
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+.live__item__avatar {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.live__question {
+  h3 {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 10px;
+    font-family: "proxima-regular";
+    font-weight: 400;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+}
+.pageTitle {
+  font-family: "proxima-bold";
+  padding-top: 20px;
+  color: #366992;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.askButton {
+  max-width: 400px;
+  width: 50%;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 20px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: "proxima-bold";
+  font-weight: 700;
+  color: #57b2f8;
+}

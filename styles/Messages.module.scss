@@ -1,0 +1,252 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.content {
+  padding: 20px 0;
+  padding-bottom: 0;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  // align-items: center;
+  border: 2px solid #ebf2f7;
+  border-radius: 20px;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 0;
+    min-height: 100vh;
+  }
+}
+
+.messages {
+  padding: 20px;
+  padding-top: 0;
+  min-height: 90vh;
+  width: 40%;
+  @media (max-width: 768px) {
+    width: 100%;
+    // display: none;
+  }
+}
+
+.messages__header {
+  h1 {
+    margin: 0;
+    font-family: "proxima-bold", sans-serif;
+  }
+  padding-bottom: 20px;
+  @media (max-width: 768px) {
+    padding: 20px 0;
+  }
+}
+.chatBox {
+  width: 60%;
+  min-height: 90vh;
+  border-left: 2px solid #ebf2f7;
+  background-color: white;
+  position: relative;
+  @media (max-width: 768px) {
+    width: 100%;
+    position: absolute;
+  }
+}
+.chatBox__header {
+  padding: 0px;
+  h1 {
+    margin: 0;
+  }
+  h4 {
+    margin: 0;
+    margin-top: 0px;
+  }
+}
+
+.user {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+
+  &:hover {
+    background-color: #ebf2f7;
+  }
+}
+
+.username {
+  margin-left: 1rem;
+
+  h3 {
+    font-size: 1rem;
+
+    font-family: "proxima-bold", sans-serif;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-size: "proxima-regular", sans-serif;
+    font-size: 14px;
+  }
+}
+
+.avatarImage {
+  border-radius: 50%;
+}
+
+.messageBox {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+.messageBox_reciver {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+.userBox {
+  background-color: #4fb3f6;
+  padding: 15px;
+  border-radius: 20px;
+  color: white;
+}
+.userBox_reciver {
+  background-color: #c3d1dd;
+  padding: 15px;
+  border-radius: 20px;
+  color: black;
+}
+
+.messageInfo {
+  p {
+    margin: 0;
+    margin-top: 10px;
+  }
+}
+
+.messageBox__sender {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  p {
+    margin: 0;
+    margin-left: 10px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #46535f;
+    font-weight: 700;
+    margin: 0 10px;
+  }
+  h3 {
+    color: #46535f;
+    padding: 0;
+    margin: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+  }
+  padding-bottom: 5px;
+}
+.messageBox__sender_reciver {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+
+  p {
+    margin: 0;
+    margin-left: 10px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #46535f;
+    font-weight: 700;
+    margin: 0 10px;
+  }
+  h3 {
+    color: #46535f;
+    padding: 0;
+    margin: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+  }
+  padding-bottom: 5px;
+}
+
+.inputBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  background-color: #ebf2f7;
+  padding: 20px;
+  border-radius: 20px;
+
+  textarea {
+    width: 90%;
+    padding: 10px 12px;
+    outline: none;
+    border: 0;
+    resize: none;
+  }
+  button {
+    margin-left: 20px;
+    background-color: #4fb3f6;
+    color: white;
+    padding: 5px 20px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 2px solid #ebf2f7;
+
+  p {
+    font-size: 12px;
+    font-weight: 700;
+    font-size: "proxima-bold", sans-serif;
+  }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  h3 {
+    margin-left: 10px;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 700;
+    font-family: "proxima-bold", sans-serif;
+  }
+}
+
+.allMessages {
+  width: 100%;
+  height: 68vh;
+  overflow-y: auto;
+  padding-left: 20px;
+  @media (max-width: 768px) {
+    padding: 10px;
+    height: 74vh;
+  }
+}
+
+.messageAvatar {
+  border-radius: 50%;
+}

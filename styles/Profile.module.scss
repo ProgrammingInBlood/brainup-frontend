@@ -1,0 +1,159 @@
+.container {
+  background-color: #fff;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.content {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  // max-width: 1000px;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 15px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  opacity: 1;
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin: 0px;
+    padding: 10px;
+
+    padding-top: 20px;
+
+    border-radius: 0;
+    min-height: 100vh;
+  }
+  @media (max-width: 480px) {
+  }
+}
+
+.user {
+  display: flex;
+}
+
+.user__info {
+  flex: 1;
+  padding: 10px 20px;
+  //   padding-right: 50px;
+  border-radius: 20px;
+  outline: none;
+  border-width: 0;
+  font-family: "proxima-regular";
+  font-size: 16px;
+  //   background-color: #ebf2f7;
+  //   margin-left: 20px;
+}
+
+.user__name {
+  font-family: "proxima-bold";
+  margin: 0;
+  font-weight: 700;
+}
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px;
+}
+
+.stats__item__icon {
+  display: flex;
+  align-items: center;
+  h2 {
+    margin: 0;
+    font-family: "proxima-bold";
+    margin-left: 4px;
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+  }
+}
+.stats__item {
+  width: 48%;
+  display: flex;
+  cursor: pointer;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  p {
+    margin: 0;
+    margin-top: 4px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+  }
+}
+.options {
+  padding-top: 20px;
+}
+
+.userOptions__item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.userOptions__item__icon {
+  margin-right: 15px;
+}
+
+.mainOption {
+  font-family: "proxima-bold";
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+.subOption {
+  font-family: "proxima-regular";
+  padding-top: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+  color: #8e8e8e;
+}
+
+.user__bio {
+  padding: 20px 0px;
+  font-family: "proxima-regular";
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  color: #8e8e8e;
+}
+
+.header {
+  width: 100%;
+  border-bottom: 2px solid rgb(235, 235, 235);
+  padding: 20px;
+  font-family: "proxima-bold";
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0;
+    margin-left: 20px;
+  }
+  background-color: white;
+}
+
+.header__back {
+  cursor: pointer;
+}

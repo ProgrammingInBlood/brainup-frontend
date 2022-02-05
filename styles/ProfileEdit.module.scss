@@ -1,0 +1,138 @@
+.EditProfile {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  padding-top: 50px;
+  font-family: "proxima-regular";
+}
+
+.avatar__image {
+  border-radius: 100%;
+}
+
+.info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  input {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5rem;
+    min-height: 1.5rem;
+    margin: 0;
+    background: #ebf2f7;
+    border: 2px solid #ebf2f7;
+    border-radius: 20px;
+    color: #000;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 0 16px;
+    height: 40px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-transition: background 100ms, border 100ms;
+    transition: background 100ms, border 100ms;
+    font-family: "proxima-regular", sans-serif;
+    margin-bottom: 15px;
+  }
+
+  textarea {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5rem;
+    min-height: 1.5rem;
+    margin: 0;
+    background: #ebf2f7;
+    border: 2px solid #ebf2f7;
+    border-radius: 20px;
+    color: #000;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 0 16px;
+    height: 40px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-transition: background 100ms, border 100ms;
+    transition: background 100ms, border 100ms;
+    font-family: "proxima-regular", sans-serif;
+    margin-bottom: 15px;
+    height: 100px;
+  }
+}
+
+.button {
+  //   width: 100%;
+  border: 0;
+  padding: 12px 15px;
+  border-radius: 20px;
+  background-color: #000;
+  color: white;
+  font-weight: bold;
+  font-family: "proxima-bold", sans-serif;
+  font-size: 15px;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f2f2;
+    color: black;
+  }
+}
+
+.security {
+  margin-top: 50px;
+  border: 1px solid grey;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  min-width: 100%;
+  position: relative;
+}
+
+.securityTitle {
+  font-family: "proxima-bold", sans-serif;
+  font-size: 20px;
+  margin: 0;
+  margin-top: -30px;
+  padding: 20px;
+  padding-top: 0;
+  background-color: white;
+  padding-bottom: 20px;
+  width: 200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.saveButton {
+  width: 100%;
+  border: 0;
+  padding: 12px 15px;
+  border-radius: 20px;
+  background-color: #60d399;
+  color: white;
+  font-weight: bold;
+  font-family: "proxima-bold", sans-serif;
+  font-size: 15px;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  &:hover {
+    background-color: #30b16f;
+  }
+}
