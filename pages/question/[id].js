@@ -21,85 +21,52 @@ function Question() {
   const auth = useSelector((state) => state.authentication);
   const { user } = auth;
   const [activeUsers, setActiveUsers] = useState([]);
-
   const [answerable, setAnswerable] = useState(true);
-  const [author, setAuthor] = useState({});
-  const [answerAuthor, setAnswerAuthor] = useState([]);
-  const [thanks, setThanks] = useState(false);
-
+  const [thanks, setThanks] = useState([]);
   const userDetails = useSelector((state) => state.user);
-  const { question, loading, data, answer } = userDetails;
+  const { question, loading } = userDetails;
 
   useEffect(() => {
     if (id) {
       dispatch(getQuestionById(id));
-      dispatch(getAnswerById(id));
     }
   }, [id]);
 
   useEffect(() => {
+    setAnswerable(true);
     if (user) {
-      if (user?.userId == question?.author) {
+      console.log({ check: question?.author?._id, userId: user?.userId });
+      if (user?.userId === question?.author?._id) {
         setAnswerable(false);
       }
     }
-  }, [user, question]);
-
-  console.log(answer);
-
-  useEffect(async () => {
-    const myself = answer.filter((a) => a.author === user?.userId);
+    const myself =
+      question?.answers?.filter((a) => a.author._id === user?.userId) || [];
+    console.log({ myself });
     if (myself.length > 0) {
       setAnswerable(false);
     }
-
-    answer.map(async (a) => {
-      await axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/get/${a.author}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setAnswerAuthor((oldData) => [...oldData, res.data.user]);
-        });
-    });
-  }, [answer]);
-
-  console.log(answerAuthor);
-
-  useEffect(() => {
-    const getAuthorDetails = async () => {
-      if (question?.author) {
-        const authorDetails = await axios.get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/get/${question.author}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setAuthor(authorDetails.data.user);
-      }
-    };
-    getAuthorDetails();
-  }, [question]);
-
-  console.log(author);
+  }, [user, question]);
 
   useEffect(() => {
     if (id) {
+      if (socket.current.disconnected) {
+        socket.current.connect();
+      }
+      console.log({ id: id + " running", socket });
       socket.current.emit("active", user?.userId, id);
-    }
-    socket.current.on("getActiveUsers", (users) => {
-      setActiveUsers(users?.activeUsers);
-      console.log({ active: users });
-    });
 
+      socket.current.on("getActiveUsers", (users) => {
+        console.log({ users });
+        setActiveUsers(users?.activeUsers);
+      });
+    }
     return () => {
-      socket.current.disconnect();
+      socket.current.close();
     };
-  }, [id]);
+  }, [id, socket]);
+
+  console.log(question);
 
   const handleAnswer = async () => {
     router.push(`/answer/${id}`);
@@ -119,7 +86,7 @@ function Question() {
       .then((res) => {
         console.log(res);
         if (res.data.success) {
-          setThanks(true);
+          setThanks((old) => [...old, { answerId, thanks: true }]);
         }
       });
   };
@@ -151,14 +118,18 @@ function Question() {
       <div className={styles.authorDetails}>
         <span>
           <Image
-            src={author?.avatar ? author?.avatar : "/images/no-avatar.png"}
+            src={
+              question?.author?.avatar
+                ? question?.author?.avatar
+                : "/images/no-avatar.png"
+            }
             alt="avatar"
             width={30}
             height={30}
             className={styles.authorDetails__avatar}
           />
         </span>
-        <h4>{author?.username}</h4>
+        <h4>{question?.author?.username}</h4>
       </div>
       <div className={styles.liveWatching}>
         <p style={{ display: activeUsers.length > 0 ? "block" : "none" }}>
@@ -184,9 +155,11 @@ function Question() {
         </div>
       </div>
       <div className={styles.answers}>
-        {answer?.map((answer, index) => {
-          const authorDetails = answerAuthor[index];
-          const thanked = answer.likes.find((t) => t === user?.userId);
+        {question?.answers?.map((answer, index) => {
+          const authorDetails = answer?.author;
+          const thanked =
+            answer.likes.find((t) => t === user?.userId) ||
+            thanks.find((t) => t.answerId === answer._id);
 
           return (
             <div className={styles.answer}>

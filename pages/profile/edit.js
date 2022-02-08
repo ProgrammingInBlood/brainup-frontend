@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import styles from "../styles/ProfileEdit.module.scss";
+import styles from "../../styles/ProfileEdit.module.scss";
 import {
   getUserDetails,
   updateAvatar,
   updateUser,
-} from "../redux/actions/User";
+} from "../../redux/actions/User";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../components/Loading";
+import Loading from "../.././components/Loading";
 function EditProfile() {
   const avatarUploadRef = useRef();
   const dispatch = useDispatch();

@@ -2,10 +2,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../components/Loading";
-import Navigation from "../components/Navigation";
-import { getUserDetails } from "../redux/actions/User";
-import styles from "../styles/Profile.module.scss";
+import Loading from "../.././components/Loading";
+import Navigation from "../../components/Navigation";
+import { getUserDetails } from "../.././redux/actions/User";
+import styles from "../../styles/Profile.module.scss";
 
 function profile() {
   const router = useRouter();
@@ -49,7 +49,7 @@ function profile() {
             >
               <h2 className={styles.user__name}>{data?.username}</h2>
               <svg
-                onClick={() => router.push("/edit-profile")}
+                onClick={() => router.push("/profile/edit")}
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -69,7 +69,10 @@ function profile() {
           <p className={styles.user__bio}>{data?.description}</p>
         </div>
         <div className={styles.stats}>
-          <div className={styles.stats__item}>
+          <div
+            className={styles.stats__item}
+            onClick={() => router.push("/profile/followings")}
+          >
             <div className={styles.stats__item__icon}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +95,10 @@ function profile() {
             <p>Following</p>
           </div>
 
-          <div className={styles.stats__item}>
+          <div
+            className={styles.stats__item}
+            onClick={() => router.push("/profile/followers")}
+          >
             <div className={styles.stats__item__icon}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

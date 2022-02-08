@@ -15,13 +15,13 @@ function Index() {
         },
       })
       .then((res) => {
+        console.log(res);
         if (res.data.success) {
           setQuestions(res.data.question);
         }
       });
   }, []);
 
-  console.log(questions);
   return (
     <div>
       <div className={styles.header}>

@@ -45,16 +45,16 @@ function profile() {
       setShowMessageBox(true);
     }
   };
-  useEffect(() => {
+  useEffect(async () => {
     console.log(conversations);
     if (id && conversations.success) {
       console.log(conversations);
-      const conversation = conversations.conversation.filter((conversation) =>
-        conversation.members.includes(id)
-      )[0];
-      const user = conversations.userList.filter(
+      const conversation = await conversations.conversation.find(
+        (conversation) => conversation.members.includes(id)
+      );
+      const user = await conversations.userList.find(
         (user) => user.userId === id
-      )[0];
+      );
       handleConversation(conversation._id, user);
     }
   }, [id, conversations?.conversation]);

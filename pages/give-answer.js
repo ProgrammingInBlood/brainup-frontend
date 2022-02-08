@@ -4,27 +4,70 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "../styles/giveAnswer.module.scss";
 import moment from "moment";
+import { SpinnerCircular } from "spinners-react";
 
 function giveAnswer() {
   const router = useRouter();
   const [questions, setQuestions] = useState([]);
-  useEffect(async () => {
-    await axios
-      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/question/allQuestions`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        console.log(JSON.parse(res.data.Allquestions[0].author));
-        if (res.data.success) {
-          setQuestions(res.data.Allquestions);
-        }
-      });
+  const [isFetching, setIsFetching] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    fetchData();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  console.log(questions);
+  const handleScroll = () => {
+    if (
+      Math.ceil(window.innerHeight + document.documentElement.scrollTop) <=
+        document.documentElement.offsetHeight ||
+      isFetching
+    ) {
+      return;
+    }
+    setIsFetching(true);
+    console.log(isFetching);
+  };
+
+  const fetchData = async () => {
+    if (page <= totalPages) {
+      await axios
+        .get(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/question/allQuestions?page=${page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.success) {
+            setQuestions((question) => {
+              return [...question, ...res.data.Allquestions];
+            });
+            setTotalPages(res.data.totalPages);
+            setPage(page + 1);
+          }
+        });
+    }
+  };
+
+  console.log({ page, totalPages, questions });
+
+  useEffect(() => {
+    if (!isFetching) return;
+    fetchMoreListItems();
+  }, [isFetching]);
+
+  const fetchMoreListItems = () => {
+    fetchData();
+    setIsFetching(false);
+  };
+
   return (
     <div>
       <div className={styles.header}>
@@ -40,8 +83,7 @@ function giveAnswer() {
         <p>Give Answer</p>
       </div>
       {questions.map((q) => {
-        const author = JSON.parse(q.author);
-
+        const author = q.author;
         //time ago with moment
         const time = moment(q.created_at).fromNow();
 
@@ -76,6 +118,20 @@ function giveAnswer() {
           </div>
         );
       })}
+      <div
+        className={styles.question}
+        style={{
+          display: isFetching ? "flex" : "none",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SpinnerCircular
+          size={30}
+          color={"#00a550"}
+          secondaryColor={"#b2b2b2"}
+        />
+      </div>
     </div>
   );
 }

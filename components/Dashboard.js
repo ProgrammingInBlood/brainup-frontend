@@ -11,13 +11,12 @@ function Dashboard() {
   const [search, setSearch] = useState("");
   const [questions, setQuestions] = useState([]);
   const [questionDetails, setQuestionDetails] = useState([]);
-  const [author, setAuthor] = useState([]);
 
   const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`));
 
   useEffect(() => {
     socket.current.on("activeQuestions", (questions) => {
-      console.log(questions);
+      console.log(questions.top);
       setQuestions(questions.top);
     });
     return () => {
@@ -27,7 +26,6 @@ function Dashboard() {
 
   useEffect(async () => {
     setQuestionDetails([]);
-    setAuthor([]);
     if (questions.length > 0) {
       questions.map(async (q) => {
         if (q?.questionId) {
@@ -42,34 +40,14 @@ function Dashboard() {
               }
             )
             .then((res) => {
-              setQuestionDetails((old) => [...old, res.data.question]);
-
-              const getAuthorDetails = async () => {
-                if (res.data.question?.author) {
-                  const authorDetails = await axios.get(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/get/${res.data.question.author}`,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                          "token"
-                        )}`,
-                      },
-                    }
-                  );
-                  setAuthor((old) => [...old, authorDetails.data.user]);
-                }
-              };
-              getAuthorDetails();
+              if (!questionDetails.find((q) => q.questionId === q.questionId)) {
+                setQuestionDetails((old) => [...old, res.data.question]);
+              }
             });
         }
       });
     }
   }, [questions]);
-
-  console.log(questions);
-  console.log(questionDetails);
-
-  console.log(author);
 
   const handleSearch = (e) => {
     if (e.keyCode === 13) {
@@ -121,9 +99,8 @@ function Dashboard() {
         </div>
 
         <h2 className={styles.pageTitle}>Live</h2>
-        {questionDetails.map((q, index) => {
-          let user = author[index];
-
+        {questionDetails.map((q) => {
+          let user = q.author;
           return (
             <div
               className={styles.live}
