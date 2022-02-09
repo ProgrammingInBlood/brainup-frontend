@@ -13,27 +13,29 @@ function Followings() {
 
   useEffect(async () => {
     setLoading(true);
-    try {
-      await axios
-        .get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/followings/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          if (res.data.success) {
-            setData(res.data.followers);
-          }
-          setLoading(false);
-        });
-    } catch (err) {
-      console.log(err);
+    if (id) {
+      try {
+        await axios
+          .get(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/followings/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            if (res.data.success) {
+              setData(res.data.followers);
+            }
+            setLoading(false);
+          });
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }, []);
+  }, [id]);
 
   return (
     <div>
