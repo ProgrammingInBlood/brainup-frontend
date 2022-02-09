@@ -64,9 +64,11 @@ function Followings() {
         </div>
         {data.map((user) => {
           //set only 20 characters of description
-          let description = user.description;
-          if (user.description.length > 40) {
-            description = user.description.substring(0, 40) + "...";
+          let description = user?.description;
+          if (description) {
+            if (user?.description?.length > 40) {
+              description = user.description.substring(0, 40) + "...";
+            }
           }
           return (
             <div
