@@ -129,7 +129,15 @@ function profile() {
                 alignItems: "center",
               }}
             >
-              <h2 className={styles.user__name}>{data?.username}</h2>
+              <span>
+                <h2 className={styles.user__name}>{data?.name}</h2>
+                <p
+                  className={styles.user__name}
+                  style={{ color: "grey", fontFamily: "proxima-regular" }}
+                >
+                  @{data?.username}
+                </p>
+              </span>
             </div>
           </div>
         </div>
