@@ -2,17 +2,27 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "./styles/GiveAnswer.module.scss";
 import TextareaAutosize from "react-textarea-autosize";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getQuestionById } from "../../redux/actions/User";
+import { io } from "socket.io-client";
+import Loading from "../../components/Loading";
 
 function GiveAnswer() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
+  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`));
   const userDetails = useSelector((state) => state.user);
-  const { question, loading, data } = userDetails;
+  const { question, loading } = userDetails;
+
+  const auth = useSelector((state) => state.authentication);
+  const { user, isAuthenticated } = auth;
+
+  if (!isAuthenticated) {
+    router.push("/");
+  }
 
   useEffect(() => {
     if (id) {
@@ -48,10 +58,22 @@ function GiveAnswer() {
       )
       .then((res) => {
         if (res.data.success) {
+          socket.current.emit("answer", {
+            userId: user?.userId,
+            questionId: id,
+            answer,
+            answerId: res.data.answer._id,
+          });
           router.push(`/question/${id}`);
+        } else {
+          setError(res.data.message);
         }
       });
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.container}>

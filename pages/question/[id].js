@@ -22,6 +22,7 @@ function Question() {
   const { user } = auth;
   const [activeUsers, setActiveUsers] = useState([]);
   const [answerable, setAnswerable] = useState(true);
+  const [answers, setAnswers] = useState([]);
   const [thanks, setThanks] = useState([]);
   const userDetails = useSelector((state) => state.user);
   const { question, loading } = userDetails;
@@ -33,12 +34,22 @@ function Question() {
   }, [id]);
 
   useEffect(() => {
+    if (question) {
+      setAnswers(question?.answers);
+    }
+  }, [question]);
+
+  useEffect(() => {
     setAnswerable(true);
     if (user) {
       console.log({ check: question?.author?._id, userId: user?.userId });
       if (user?.userId === question?.author?._id) {
         setAnswerable(false);
       }
+    }
+
+    if (question?.answers?.length > 2) {
+      setAnswerable(false);
     }
     const myself =
       question?.answers?.filter((a) => a.author._id === user?.userId) || [];
@@ -59,6 +70,10 @@ function Question() {
       socket.current.on("getActiveUsers", (users) => {
         console.log({ users });
         setActiveUsers(users?.activeUsers);
+      });
+      socket.current.on("getAnswer", (answer) => {
+        console.log(answer);
+        setAnswers((old) => [...old, answer]);
       });
     }
     return () => {
@@ -155,7 +170,7 @@ function Question() {
         </div>
       </div>
       <div className={styles.answers}>
-        {question?.answers?.map((answer, index) => {
+        {answers?.map((answer, index) => {
           const authorDetails = answer?.author;
           const thanked =
             answer.likes.find((t) => t === user?.userId) ||
@@ -164,7 +179,11 @@ function Question() {
           return (
             <div className={styles.answer}>
               <p>{answer.answer}</p>
-              <div className={styles.authorDetails} style={{ padding: 0 }}>
+              <div
+                className={styles.authorDetails}
+                style={{ padding: 0 }}
+                onClick={() => router.push(`/users/${authorDetails._id}`)}
+              >
                 <span>
                   <Image
                     src={
@@ -210,7 +229,10 @@ function Question() {
                       </g>
                     </svg>
                   </span>
-                  <h3 style={{ color: "#57b2f8" }}>COMMENT</h3>
+                  <h3 style={{ color: "#57b2f8" }}>
+                    COMMENT <br />
+                    (coming soon)
+                  </h3>
                 </div>
                 <div
                   className={styles.answer__action}
@@ -245,7 +267,8 @@ function Question() {
                     </svg>
                   </span>
                   <h3 style={{ color: "#ff7f72" }}>
-                    {thanked ? "THANKED" : "THANK YOU"}
+                    {thanked ? "THANKED " : "THANK YOU "} (
+                    {answer.likes?.length})
                   </h3>
                 </div>
               </div>

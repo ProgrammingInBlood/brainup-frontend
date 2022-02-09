@@ -13,11 +13,14 @@ function profile() {
 
   //REDUX FOR USER
   const user = useSelector((state) => state.user);
-  const { loading, data, error } = user;
+  const { loading, data } = user;
 
   const auth = useSelector((state) => state.authentication);
+  const { isAuthenticated } = auth;
 
-  console.log(auth);
+  if (!isAuthenticated) {
+    router.push("/");
+  }
 
   useEffect(() => {
     dispatch(getUserDetails());
@@ -47,7 +50,15 @@ function profile() {
                 alignItems: "center",
               }}
             >
-              <h2 className={styles.user__name}>{data?.username}</h2>
+              <span>
+                <h2 className={styles.user__name}>{data?.name}</h2>
+                <p
+                  className={styles.user__name}
+                  style={{ color: "grey", fontFamily: "proxima-regular" }}
+                >
+                  @{data?.username}
+                </p>
+              </span>
               <svg
                 onClick={() => router.push("/profile/edit")}
                 xmlns="http://www.w3.org/2000/svg"

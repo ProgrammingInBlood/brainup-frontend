@@ -1,6 +1,8 @@
 .container {
   background-color: #fff;
   margin: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
   display: flex;
   align-items: center;
@@ -101,6 +103,7 @@
 }
 .options {
   padding-top: 20px;
+  padding-bottom: 50px;
 }
 
 .userOptions__item {

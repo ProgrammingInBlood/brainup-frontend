@@ -136,3 +136,22 @@
     background-color: #30b16f;
   }
 }
+
+.header {
+  width: 100%;
+  border-bottom: 2px solid rgb(235, 235, 235);
+  padding: 20px;
+  font-family: "proxima-bold";
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0;
+    margin-left: 20px;
+  }
+  background-color: white;
+}
+
+.header__back {
+  cursor: pointer;
+}

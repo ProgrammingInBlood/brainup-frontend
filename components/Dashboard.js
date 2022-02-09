@@ -11,6 +11,7 @@ function Dashboard() {
   const [search, setSearch] = useState("");
   const [questions, setQuestions] = useState([]);
   const [questionDetails, setQuestionDetails] = useState([]);
+  const [brainlistQuestions, setBrainlistQuestions] = useState([]);
 
   const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`));
 
@@ -57,6 +58,21 @@ function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    const getBrainlistQuestions = async () => {
+      await axios
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/question/brainlist`)
+        .then((res) => {
+          if (res.data.success) {
+            setBrainlistQuestions(res.data.question);
+          }
+        });
+    };
+    getBrainlistQuestions();
+  }, []);
+
+  console.log(brainlistQuestions);
+
   return (
     <>
       <div className={styles.conatiner}>
@@ -89,14 +105,6 @@ function Dashboard() {
             </span>
           </div>
         </div>
-        <div className={styles.buttonContainer}>
-          <button
-            className={styles.askButton}
-            onClick={() => router.push("/question/ask")}
-          >
-            Ask Question
-          </button>
-        </div>
 
         <h2 className={styles.pageTitle}>Live</h2>
         {questionDetails.map((q) => {
@@ -127,53 +135,32 @@ function Dashboard() {
         })}
 
         <h2 className={styles.pageTitle}>Brainliest Questions</h2>
-        <div className={styles.live}>
-          <div className={styles.live__item}>
-            <div className={styles.live__user}>
-              <Image
-                src="/images/avatar.png"
-                alt="avatar"
-                width={30}
-                height={30}
-                className={styles.live__item__avatar}
-              />
-              <h3>cleverboi</h3>
+        {brainlistQuestions.map((q) => {
+          let user = q.author;
+          return (
+            <div
+              className={styles.live}
+              key={q?._id}
+              onClick={() => router.push(`/question/${q._id}`)}
+            >
+              <div className={styles.live__item}>
+                <div className={styles.live__user}>
+                  <Image
+                    src={user?.avatar ? user?.avatar : "/images/no-avatar.png"}
+                    alt="avatar"
+                    width={30}
+                    height={30}
+                    className={styles.live__item__avatar}
+                  />
+                  <h3>{user?.username}</h3>
+                </div>
+                <div className={styles.live__question}>
+                  <h3>{q.question}</h3>
+                </div>
+              </div>
             </div>
-            <div className={styles.live__question}>
-              <h3>What is the best way to get a job in the tech industry?</h3>
-            </div>
-          </div>
-          <div className={styles.live__item}>
-            <div className={styles.live__user}>
-              <Image
-                src="/images/avatar.png"
-                alt="avatar"
-                width={30}
-                height={30}
-                className={styles.live__item__avatar}
-              />
-              <h3>cleverboi</h3>
-            </div>
-            <div className={styles.live__question}>
-              <h3>What is the best way to get a job in the tech industry?</h3>
-            </div>
-          </div>
-          <div className={styles.live__item}>
-            <div className={styles.live__user}>
-              <Image
-                src="/images/avatar.png"
-                alt="avatar"
-                width={30}
-                height={30}
-                className={styles.live__item__avatar}
-              />
-              <h3>cleverboi</h3>
-            </div>
-            <div className={styles.live__question}>
-              <h3>What is the best way to get a job in the tech industry?</h3>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
       <Navigation />
     </>

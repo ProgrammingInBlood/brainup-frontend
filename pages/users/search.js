@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "../../styles/Search.module.scss";
 import { SpinnerCircular } from "spinners-react";
+import Navigation from "../../components/Navigation";
 
 function Search() {
   const router = useRouter();
@@ -35,15 +36,6 @@ function Search() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <span onClick={() => router.back()}>
-          <Image
-            src="/images/back.png"
-            alt="avatar"
-            width={30}
-            height={30}
-            className={styles.header__back}
-          />
-        </span>
         <div className={styles.search}>
           <input
             type="text"
@@ -157,6 +149,7 @@ function Search() {
           );
         })}
       </div>
+      <Navigation />
     </div>
   );
 }

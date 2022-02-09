@@ -165,13 +165,13 @@
   @media (max-width: 768px) {
     flex-direction: column;
     width: 100%;
-    padding: 20px;
+    // padding: 20px;
     margin-top: 10px;
   }
 }
 
 .title {
-  font-family: "proxima-nova", sans-serif;
+  font-family: "proxima-bold", sans-serif;
   font-weight: 900;
   padding-top: 20px;
   max-width: 800px;
@@ -212,13 +212,14 @@
   overflow: auto;
 }
 .bannerContainer {
-  background-color: #60d399;
+  // background-color: #60d399;
+  color: black;
 }
 .banner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   min-height: calc(100vh - 64px);
 
@@ -234,16 +235,20 @@
   width: 60%;
   padding-right: 20px;
   h1 {
-    font-family: "proxima-nova", sans-serif;
-    font-weight: 900;
+    font-family: "proxima-black", sans-serif;
+    font-weight: 400;
     font-size: 78px;
     line-height: 78px;
-    color: #fff;
+    color: #000;
     margin: 0;
     padding: 0;
     @media (max-width: 1024px) {
       font-size: 40px;
       line-height: 40px;
+    }
+    @media (max-width: 768px) {
+      font-size: 38px;
+      line-height: 38px;
     }
   }
 
@@ -252,11 +257,15 @@
     font-family: "proxima-regular", sans-serif;
     font-weight: 400;
     font-size: 22px;
-    color: #fff;
+    color: #000;
 
     @media (max-width: 1024px) {
       font-size: 20px;
       margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      font-size: 18px;
+      margin-top: 18px;
     }
   }
   @media (max-width: 1024px) {

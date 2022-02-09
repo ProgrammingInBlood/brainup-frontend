@@ -1,37 +1,77 @@
 import styles from "../../styles/login.module.scss";
-import Image from "next/image";
 import { useRouter } from "next/router";
-
 import { useEffect, useState } from "react";
 import { SpinnerCircular } from "spinners-react";
-
 import Head from "next/head";
-import { css } from "@emotion/react";
 import axios from "axios";
+import { login } from "../../redux/actions/Authentication";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login({ session }) {
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const [spinner, setSpinner] = useState(false);
+
+  const auth = useSelector((state) => state.authentication);
+  const { isAuthenticated } = auth;
+
+  if (isAuthenticated) {
+    router.replace("/");
+  }
 
   //LOGIN VALUES
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
-  //verify email function
+  const [usernameError, setUsernameError] = useState("");
+  const [color, setColor] = useState("none");
 
   useEffect(() => {
     setError("");
-  }, [email, password, confirmPassword, name]);
+  }, [email, password, confirmPassword, name, username]);
+
+  useEffect(() => {
+    const checkUsername = async () => {
+      setUsernameError("");
+      setColor("none");
+
+      if (username.length > 3 && username.length < 15) {
+        await axios
+          .post(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/check/username`,
+            {
+              username: username,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.data.success) {
+              setSpinner(false);
+              setColor("#30b16f");
+              setUsernameError("");
+            } else {
+              setSpinner(false);
+              setColor("red");
+              setUsernameError(res.data.message);
+            }
+          });
+      }
+    };
+    checkUsername();
+  }, [username]);
 
   useEffect(() => {
     if (session) {
       router.replace("/");
     } else {
-      setLoading(false);
+      setSpinner(false);
     }
   }, [router, session]);
 
@@ -47,14 +87,22 @@ function Login({ session }) {
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Invalid email address");
+      setError("Enter a valid email address");
       setSpinner(false);
-
       return false;
     }
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters long");
+      setSpinner(false);
+      return;
+    }
+
+    if (username.length > 15 || username.length < 3) {
+      setUsernameError(
+        "Username should be 3-20 characters long, try something else."
+      );
+      setColor("red");
       setSpinner(false);
       return;
     }
@@ -68,6 +116,7 @@ function Login({ session }) {
     await axios
       .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/createuser`, {
         name: name,
+        username: username,
         email: email,
         password: password,
       })
@@ -76,25 +125,13 @@ function Login({ session }) {
         if (res.data.success) {
           setError("");
           setSpinner(false);
-          router.replace(
-            "/auth/confirmotp?token=" + res.data.token + "&email=" + email
-          );
+          dispatch(login("", "", "custom", res.data.token));
         } else {
           setError(res.data.message);
           setSpinner(false);
         }
       });
   }
-
-  const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-  `;
-
-  const handleGoogleSignIn = async () => {
-    router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google?web=true`);
-  };
 
   return (
     <div className={styles.container}>
@@ -124,6 +161,19 @@ function Login({ session }) {
             className={styles.input}
             onChange={(e) => setName(e.target.value)}
           />
+          <p className={styles.text}></p>
+          <input
+            style={{ borderColor: color, outlineColor: color }}
+            type="text"
+            placeholder="Username"
+            maxLength={15}
+            value={username}
+            className={styles.input}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <p style={{ color: "#cf1d00", fontWeight: 700, fontSize: 14 }}>
+            {usernameError}
+          </p>
           <p className={styles.text}></p>
           <input
             type="email"
@@ -158,28 +208,7 @@ function Login({ session }) {
             )}
           </button>
         </div>
-        <div className={styles.buttons}>
-          <button className={styles.button} onClick={handleGoogleSignIn}>
-            <Image
-              alt="google"
-              src="/icons/google.png"
-              height="24"
-              width="24"
-              layout="fixed"
-            />{" "}
-            <span> Google</span>
-          </button>
-          <button className={styles.button}>
-            <Image
-              alt="facebook"
-              src="/icons/fb.png"
-              height="24"
-              width="24"
-              layout="fixed"
-            />{" "}
-            <span> Facebook</span>
-          </button>
-        </div>
+
         <p className={styles.infoprivacy}>
           We never share anything on your behalf
         </p>

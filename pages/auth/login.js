@@ -12,20 +12,23 @@ function Login() {
   const router = useRouter();
   //REDUX FOR LOGIN
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.authentication);
-  const { loading } = authState;
+
+  const auth = useSelector((state) => state.authentication);
+  const { isAuthenticated, loading } = auth;
+  if (isAuthenticated) {
+    router.replace("/");
+  }
 
   useEffect(() => {
-    console.log(authState);
-    if (authState.error) {
-      setError(authState.error);
+    if (auth.error) {
+      setError(auth.error);
     }
-  }, [authState]);
+  }, [auth]);
 
   const handleSignInWithCredentials = () => {
     setError("");
     if (email.length === 0) {
-      setError("Username or Email cannot be empty");
+      setError("Username cannot be empty");
       return false;
     }
     if (password.length === 0) {
@@ -53,6 +56,10 @@ function Login() {
     router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google?web=true`);
   };
 
+  const handleFacebookSignIn = async () => {
+    router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/facebook?web=true`);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -74,7 +81,7 @@ function Login() {
           <p className={styles.text}></p>
           <input
             type="text"
-            placeholder="Username or email"
+            placeholder="Username"
             className={styles.input}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -109,28 +116,7 @@ function Login() {
             <p onClick={handleLogout}>Forgot your password?</p>
           </div>
         </div>
-        <div className={styles.buttons}>
-          <button className={styles.button} onClick={handleGoogleSignIn}>
-            <Image
-              alt="google"
-              src="/icons/google.png"
-              height="24"
-              width="24"
-              layout="fixed"
-            />{" "}
-            <span> Google</span>
-          </button>
-          <button className={styles.button}>
-            <Image
-              alt="facebook"
-              src="/icons/fb.png"
-              height="24"
-              width="24"
-              layout="fixed"
-            />{" "}
-            <span> Facebook</span>
-          </button>
-        </div>
+
         <p className={styles.infoprivacy}>
           We never share anything on your behalf
         </p>

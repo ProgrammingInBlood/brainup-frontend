@@ -20,7 +20,7 @@ function EditProfile() {
   }, []);
 
   const handleUserUpdate = () => {
-    dispatch(updateUser({ username, description }));
+    dispatch(updateUser({ name: username, description }));
     if (avatar) {
       dispatch(updateAvatar(avatar));
     }
@@ -33,15 +33,12 @@ function EditProfile() {
   const [avatar, setAvatar] = useState();
 
   const handleUsernameChange = (e) => {
-    //regex for username and also allow removing text
-    if (e.target.value.match(/^[a-zA-Z0-9_]*$/)) {
-      setUsername(e.target.value);
-    }
+    setUsername(e.target.value);
   };
 
   useEffect(() => {
     if (data.username || data.description || data.avatar) {
-      setUsername(data?.username);
+      setUsername(data?.name);
       setDescription(data?.description);
       setImage(data?.avatar);
     }
@@ -98,7 +95,8 @@ function EditProfile() {
         <div className={styles.info}>
           <input
             type="text"
-            placeholder="Username"
+            maxLength={20}
+            placeholder="Full name"
             value={username}
             onChange={(e) => handleUsernameChange(e)}
           />
@@ -106,6 +104,7 @@ function EditProfile() {
             type="text"
             placeholder="Description"
             value={description}
+            maxLength={250}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>

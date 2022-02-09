@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "../styles/giveAnswer.module.scss";
 import moment from "moment";
 import { SpinnerCircular } from "spinners-react";
+import Navigation from "../components/Navigation";
 
 function giveAnswer() {
   const router = useRouter();
@@ -69,7 +70,7 @@ function giveAnswer() {
   };
 
   return (
-    <div>
+    <div style={{ paddingBottom: 100 }}>
       <div className={styles.header}>
         <span onClick={() => router.back()}>
           <Image
@@ -132,6 +133,7 @@ function giveAnswer() {
           secondaryColor={"#b2b2b2"}
         />
       </div>
+      <Navigation />
     </div>
   );
 }

@@ -33,7 +33,7 @@ function Settings() {
       <div className={styles.options} style={{ paddingTop: 0 }}>
         <div
           className={styles.userOptions__item}
-          onClick={() => router.push("/messages")}
+          onClick={() => router.push("/profile/changePassword")}
         >
           <div className={styles.userOptions__item__icon}>
             <svg
@@ -50,36 +50,27 @@ function Settings() {
           </div>
         </div>
 
-        <div className={styles.userOptions__item}>
+        <div
+          className={styles.userOptions__item}
+          onClick={() => router.push("/profile/edit")}
+        >
           <div className={styles.userOptions__item__icon}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 30 30"
-              width={24}
-              height={24}
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              style={{ cursor: "pointer" }}
             >
-              <circle
-                cx="15"
-                cy="15"
-                r="11"
-                fill="none"
-                stroke="#000"
-                stroke-miterlimit="10"
-                stroke-width="2"
+              <path
+                fill="#000"
+                d="M17.864 3.60051C17.4735 3.20999 16.8403 3.20999 16.4498 3.60051L15.0356 5.01472 19.2782 9.25736 20.6924 7.84315C21.0829 7.45263 21.0829 6.81946 20.6924 6.42894L17.864 3.60051zM17.864 10.6716L13.6213 6.42894 4.72185 15.3284C4.53431 15.516 4.42896 15.7703 4.42896 16.0355L4.42896 18.864C4.42895 19.4163 4.87667 19.864 5.42896 19.864H8.25738C8.5226 19.864 8.77695 19.7586 8.96449 19.5711L17.864 10.6716z"
               />
-              <polyline
-                fill="none"
-                stroke="#000"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                points="17 20 15 20 15 13 14 13"
-              />
-              <circle cx="14.5" cy="9.5" r="1.5" />
             </svg>
           </div>
           <div className={styles.userOptions__item__text}>
-            <p className={styles.mainOption}>About us</p>
+            <p className={styles.mainOption}>Edit Profile</p>
           </div>
         </div>
         <div className={styles.userOptions__item} onClick={handleLogout}>

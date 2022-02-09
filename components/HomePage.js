@@ -70,32 +70,9 @@ export default function Home() {
           </svg>
         </div>
 
-        <div className={styles.searchBar}>
-          <input
-            type="text"
-            placeholder="Search for an answer to any question..."
-            className={styles.search}
-          />
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              id="Layer_1"
-              x="0"
-              y="0"
-              version="1.1"
-              viewBox="0 0 29 29"
-              xmlSpace="preserve"
-              fill="#687b8c"
-            >
-              <path d="M11.854 21.854c-5.514 0-10-4.486-10-10s4.486-10 10-10 10 4.486 10 10-4.486 10-10 10zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.588-8-8-8z" />
-              <path d="M26.146 27.146a.997.997 0 0 1-.707-.293l-7.694-7.694a.999.999 0 1 1 1.414-1.414l7.694 7.694a.999.999 0 0 1-.707 1.707z" />
-            </svg>
-          </span>
-        </div>
-
         <div className={styles.options}>
-          <span>ASK QUESTION</span>
-          <span>JOIN FOR FREE</span>
+          <span onClick={() => router.push("/auth/login")}>LOGIN</span>
+          <span onClick={() => router.push("/auth/signup")}>JOIN FOR FREE</span>
         </div>
         <div className={styles.mobileOptions}>
           <span style={{ width: 24, height: 24 }} onClick={handleMobileMenu}>
@@ -158,7 +135,12 @@ export default function Home() {
               experts put their heads together to crack their toughest homework
               questions.
             </p>
+            <div className={styles.auth}>
+              <span onClick={() => router.push("/auth/login")}>LOGIN</span>
+              <span onClick={() => router.push("/auth/signup")}>JOIN NOW</span>
+            </div>
           </div>
+
           <div className={styles.bannerImage}>
             <Image
               src="/images/home.png"
@@ -199,15 +181,9 @@ export default function Home() {
             </g>
           </svg>
         </span>
-        <h1 className={styles.title} onClick={handleLogout}>
-          {" "}
+        <h1 className={styles.title}>
           Tap into the brainpower of thousands of experts worldwide
         </h1>
-
-        <div className={styles.auth}>
-          <span onClick={() => router.push("/auth/login")}>LOGIN</span>
-          <span onClick={() => router.push("/auth/signup")}>JOIN NOW</span>
-        </div>
       </main>
 
       <div
@@ -223,11 +199,6 @@ export default function Home() {
           <div className={styles.auth}>
             <span onClick={() => router.push("/auth/login")}>LOGIN</span>
             <span onClick={() => router.push("/auth/signup")}>JOIN NOW</span>
-          </div>
-
-          <h1 className={styles.title}>What do you need to know?</h1>
-          <div className={styles.auth}>
-            <span>ASK QUESTION</span>
           </div>
         </div>
       </div>
