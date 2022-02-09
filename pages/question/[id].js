@@ -130,7 +130,11 @@ function Question() {
       <div className={styles.questionTextConatiner}>
         <p>{question?.question}</p>
       </div>
-      <div className={styles.authorDetails}>
+      <div
+        className={styles.authorDetails}
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push(`/users/${question?.author?._id}`)}
+      >
         <span>
           <Image
             src={

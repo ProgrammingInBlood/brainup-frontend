@@ -19,15 +19,10 @@
   display: flex;
   position: relative;
   span {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    right: 65px;
-    top: 20px;
-    z-index: 2;
-    @media (max-width: 768px) {
-      right: 25px;
-    }
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
+    margin-left: 20px;
   }
   @media (max-width: 768px) {
     padding: 10px;
@@ -109,8 +104,8 @@
 }
 
 .askButton {
-  max-width: 400px;
-  width: 50%;
+  max-width: 700px;
+  width: 97%;
   margin: 0 auto;
   border: 0;
   border-radius: 20px;
@@ -118,5 +113,9 @@
   cursor: pointer;
   font-family: "proxima-bold";
   font-weight: 700;
-  color: #57b2f8;
+  color: #fff;
+  background-color: #60d399;
+  &:hover {
+    background-color: #30b16f;
+  }
 }
