@@ -204,7 +204,10 @@ function profile() {
           </div>
         </div>
         <div className={styles.stats}>
-          <div className={styles.stats__item}>
+          <div
+            className={styles.stats__item}
+            onClick={() => router.push(`/users/followings/${id}`)}
+          >
             <div className={styles.stats__item__icon}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +230,10 @@ function profile() {
             <p>Followings</p>
           </div>
 
-          <div className={styles.stats__item}>
+          <div
+            className={styles.stats__item}
+            onClick={() => router.push(`/users/followers/${id}`)}
+          >
             <div className={styles.stats__item__icon}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
