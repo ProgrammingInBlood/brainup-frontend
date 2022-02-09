@@ -107,6 +107,18 @@ function Dashboard() {
         </div>
 
         <h2 className={styles.pageTitle}>Live</h2>
+
+        {questionDetails.length <= 0 ? (
+          <h1
+            style={{
+              fontFamily: "proxima-bold",
+              textAlign: "center",
+              color: "gray",
+            }}
+          >
+            No Live Answers
+          </h1>
+        ) : null}
         {questionDetails.map((q) => {
           let user = q.author;
           return (

@@ -31,7 +31,6 @@ function giveAnswer() {
       return;
     }
     setIsFetching(true);
-    console.log(isFetching);
   };
 
   const fetchData = async () => {
@@ -83,6 +82,7 @@ function giveAnswer() {
         </span>
         <p>Give Answer</p>
       </div>
+
       {questions.map((q) => {
         const author = q.author;
         //time ago with moment
