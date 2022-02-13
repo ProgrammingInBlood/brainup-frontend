@@ -123,7 +123,14 @@ function Dashboard() {
                     height={30}
                     className={styles.live__item__avatar}
                   />
-                  <span style={{ display: "flex", alignItems: "center" }}>
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
                     <h3>{user?.username}</h3>
                     <span className={styles.liveCount}>
                       <svg
