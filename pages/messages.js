@@ -88,8 +88,6 @@ function profile() {
       console.log("getMessage");
     });
 
-    console.log(socket.current);
-
     return () => {
       socket.current.disconnect();
     };
