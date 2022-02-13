@@ -81,7 +81,7 @@ function Question() {
     };
   }, [id, socket]);
 
-  console.log(question);
+  console.log(activeUsers);
 
   const handleAnswer = async () => {
     router.push(`/answer/${id}`);

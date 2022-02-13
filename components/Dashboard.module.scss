@@ -119,3 +119,22 @@
     background-color: #30b16f;
   }
 }
+
+.liveCount {
+  font-family: "proxima-bold";
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #60d399;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 5px;
+  margin-left: 18px;
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0;
+    margin-left: 5px;
+    padding: 0;
+  }
+}

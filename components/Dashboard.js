@@ -17,7 +17,7 @@ function Dashboard() {
 
   useEffect(() => {
     socket.current.on("activeQuestions", (questions) => {
-      console.log(questions.top);
+      console.log(questions);
       setQuestions(questions.top);
     });
     return () => {
@@ -25,30 +25,7 @@ function Dashboard() {
     };
   }, []);
 
-  useEffect(async () => {
-    setQuestionDetails([]);
-    if (questions.length > 0) {
-      questions.map(async (q) => {
-        if (q?.questionId) {
-          console.log(q?.questionId);
-          await axios
-            .get(
-              `${process.env.NEXT_PUBLIC_SERVER_URL}/api/question/${q.questionId}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            )
-            .then((res) => {
-              if (!questionDetails.find((q) => q.questionId === q.questionId)) {
-                setQuestionDetails((old) => [...old, res.data.question]);
-              }
-            });
-        }
-      });
-    }
-  }, [questions]);
+  console.log({ questions });
 
   const handleSearch = (e) => {
     if (e.keyCode === 13) {
@@ -117,7 +94,7 @@ function Dashboard() {
 
         <h2 className={styles.pageTitle}>Live</h2>
 
-        {questionDetails.length <= 0 ? (
+        {questions?.length <= 0 ? (
           <h1
             style={{
               fontFamily: "proxima-bold",
@@ -128,8 +105,9 @@ function Dashboard() {
             No Live Answers
           </h1>
         ) : null}
-        {questionDetails.map((q) => {
-          let user = q.author;
+        {questions.map((question) => {
+          let user = question.user;
+          let q = question.question;
           return (
             <div
               className={styles.live}
@@ -145,7 +123,38 @@ function Dashboard() {
                     height={30}
                     className={styles.live__item__avatar}
                   />
-                  <h3>{user?.username}</h3>
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    <h3>{user?.username}</h3>
+                    <span className={styles.liveCount}>
+                      <svg
+                        id="SvgjsSvg1001"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        xmlnsSvgjs="http://svgjs.com/svgjs"
+                      >
+                        <defs id="SvgjsDefs1002"></defs>
+                        <g id="SvgjsG1008">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 48 48"
+                          >
+                            <path fill="none" d="M0 0h48v48h-48z"></path>
+                            <path
+                              d="M24 9c-10 0-18.54 6.22-22 15 3.46 8.78 12 15 22 15 10.01 0 18.54-6.22 22-15-3.46-8.78-11.99-15-22-15zm0 25c-5.52 0-10-4.48-10-10s4.48-10 10-10 10 4.48 10 10-4.48 10-10 10zm0-16c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"
+                              fill="#ffffff"
+                              class="color000 svgShape"
+                            ></path>
+                          </svg>
+                        </g>
+                      </svg>
+                      <p>{question.count}</p>
+                    </span>
+                  </span>
                 </div>
                 <div className={styles.live__question}>
                   <h3>{q.question}</h3>
