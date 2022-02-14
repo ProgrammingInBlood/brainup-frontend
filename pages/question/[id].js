@@ -182,7 +182,7 @@ function Question() {
 
           return (
             <div className={styles.answer}>
-              <p>{answer.answer}</p>
+              <pre style={{ whiteSpace: "pre-wrap" }}>{answer.answer}</pre>
               <div
                 className={styles.authorDetails}
                 style={{ padding: 0 }}
