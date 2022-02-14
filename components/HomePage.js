@@ -61,7 +61,7 @@ export default function Home() {
             <title>brainly logo</title>
             <path
               d="M-.035 405.581l406.08-69.668V.661L-.035 70.908v334.673z"
-              fill="#00a451"
+              fill="#000"
             />
             <path
               fill="#fff"
