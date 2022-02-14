@@ -127,7 +127,7 @@ function Registration() {
           <h1>Complete registration</h1>
           <p>
             Tell us a bit about yourself. We need this information to keep
-            Brainup safe place
+            BrainFreak safe place
           </p>
         </div>
 
@@ -191,7 +191,7 @@ function Registration() {
         <p className={styles.signup} style={{ fontSize: 12 }}>
           By signing up, you accept the{" "}
           <span onClick={() => router.push("/auth/signup")}>
-            Brainup Terms of Service
+            BrainFreak Terms of Service
           </span>{" "}
           &{" "}
           <span onClick={() => router.push("/auth/signup")}>
