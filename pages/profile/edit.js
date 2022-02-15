@@ -191,7 +191,11 @@ function EditProfile() {
         </div> */}
 
         <button className={styles.saveButton} onClick={handleUserUpdate}>
-          {loading ? <SpinnerCircular size={20} color={"white"} /> : "Save"}
+          {updateLoading ? (
+            <SpinnerCircular size={20} color={"white"} />
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
     </div>
