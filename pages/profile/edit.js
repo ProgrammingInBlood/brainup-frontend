@@ -97,8 +97,13 @@ function EditProfile() {
             }
           });
       } catch (err) {
-        console.log(err);
-        setError(err.message);
+        if (err?.response?.data) {
+          setError(
+            "Only .png, .jpg and .jpeg format allowed! and should less than 5MB"
+          );
+        } else {
+          setError(err.message);
+        }
         setUpdateLoading(false);
       }
     }
@@ -133,7 +138,7 @@ function EditProfile() {
               style={{ display: "none" }}
               onChange={(e) => setAvatar(e.target.files[0])}
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg , image/jpg"
               name="avatar"
             />
             <p>Edit Avatar </p>
