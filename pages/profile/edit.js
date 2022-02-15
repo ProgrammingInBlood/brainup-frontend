@@ -8,23 +8,22 @@ import {
 } from "../../redux/actions/User";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../.././components/Loading";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { SpinnerCircular } from "spinners-react";
 function EditProfile() {
+  const router = useRouter();
   const avatarUploadRef = useRef();
   const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const [updateLoading, setUpdateLoading] = useState(false);
   //REDUX FOR USER
   const user = useSelector((state) => state.user);
-  const { loading, data, error } = user;
+  const { loading, data } = user;
 
   useEffect(() => {
     dispatch(getUserDetails());
   }, []);
-
-  const handleUserUpdate = () => {
-    dispatch(updateUser({ name: username, description }));
-    if (avatar) {
-      dispatch(updateAvatar(avatar));
-    }
-  };
 
   //set initial input values
   const [username, setUsername] = useState("");
@@ -43,6 +42,67 @@ function EditProfile() {
       setImage(data?.avatar);
     }
   }, [data]);
+
+  const handleUserUpdate = async () => {
+    setUpdateLoading(true);
+    try {
+      await axios
+        .put(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update`,
+          { name: username, description },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.success) {
+            if (!avatar) {
+              router.push("/profile");
+              setUpdateLoading(false);
+            }
+          } else {
+            setError(res.data.message);
+            setUpdateLoading(false);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+      setUpdateLoading(false);
+    }
+    if (avatar) {
+      const formData = new FormData();
+      formData.append("avatar", avatar);
+      try {
+        await axios
+          .put(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update/avatar`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            if (res.data.success) {
+              router.push("/profile");
+              setUpdateLoading(false);
+            } else {
+              setError(res.data.message);
+              setUpdateLoading(false);
+            }
+          });
+      } catch (err) {
+        console.log(err);
+        setError(err.message);
+        setUpdateLoading(false);
+      }
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -131,7 +191,7 @@ function EditProfile() {
         </div> */}
 
         <button className={styles.saveButton} onClick={handleUserUpdate}>
-          Save
+          {loading ? <SpinnerCircular size={20} color={"white"} /> : "Save"}
         </button>
       </div>
     </div>

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../components/Loading";
-
 import {
   getConversations,
   getMessages,

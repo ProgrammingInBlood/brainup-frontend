@@ -87,6 +87,7 @@ export const updateAvatar = (avatar) => async (dispatch) => {
         }
       )
       .then((res) => {
+        console.log(res);
         if (res.data.success) {
           dispatch({
             type: actionTypes.UPDATE_AVATAR_SUCCESS,
