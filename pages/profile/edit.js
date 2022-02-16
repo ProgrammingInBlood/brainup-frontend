@@ -11,6 +11,7 @@ import Loading from "../.././components/Loading";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { SpinnerCircular } from "spinners-react";
+import TextareaAutosize from "react-textarea-autosize";
 function EditProfile() {
   const router = useRouter();
   const avatarUploadRef = useRef();
@@ -165,11 +166,12 @@ function EditProfile() {
             value={username}
             onChange={(e) => handleUsernameChange(e)}
           />
-          <textarea
+          <TextareaAutosize
             type="text"
             placeholder="Description"
             value={description}
             maxLength={250}
+            minRows={6}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>

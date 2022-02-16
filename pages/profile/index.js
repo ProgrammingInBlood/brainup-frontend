@@ -77,7 +77,7 @@ function profile() {
           </div>
         </div>
         <div style={styles.userDescription}>
-          <p className={styles.user__bio}>{data?.description}</p>
+          <pre className={styles.user__bio}>{data?.description}</pre>
         </div>
         <div className={styles.stats}>
           <div
