@@ -137,7 +137,7 @@ function MessageLiveChat() {
                 />
                 <h3>{selectedConversationUser?.username}</h3>
               </div>
-              <p>BLOCK/REPORT USER</p>
+              {/* <p>BLOCK/REPORT USER</p> */}
             </div>
             <div className={styles.allMessages} ref={messagesContainerRef}>
               {messagesContainer.map((message) => {
