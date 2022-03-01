@@ -27,6 +27,8 @@ function Question() {
   const userDetails = useSelector((state) => state.user);
   const { question, loading } = userDetails;
 
+  console.log(question);
+
   useEffect(() => {
     if (id) {
       dispatch(getQuestionById(id));
@@ -204,7 +206,10 @@ function Question() {
                 <h4>{authorDetails?.username}</h4>
               </div>
               <div className={styles.answer__actions}>
-                <div className={styles.answer__action}>
+                <div
+                  className={styles.answer__action}
+                  onClick={() => router.push(`/question/comment/${answer._id}`)}
+                >
                   <span>
                     <svg
                       id="SvgjsSvg1011"
@@ -234,8 +239,7 @@ function Question() {
                     </svg>
                   </span>
                   <h3 style={{ color: "#57b2f8" }}>
-                    COMMENT <br />
-                    (coming soon)
+                    COMMENTS ({answer?.comments?.length})
                   </h3>
                 </div>
                 <div

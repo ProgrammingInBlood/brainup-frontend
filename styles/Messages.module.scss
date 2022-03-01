@@ -249,3 +249,59 @@
 .messageAvatar {
   border-radius: 50%;
 }
+
+.header {
+  width: 100%;
+  border-bottom: 2px solid rgb(235, 235, 235);
+  padding: 15px 10px;
+  font-family: "proxima-bold";
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  h3 {
+    margin: 0;
+    margin-left: 10px;
+    font-size: 18px;
+  }
+  background-color: white;
+}
+
+.header__back {
+  cursor: pointer;
+}
+.liveCount {
+  font-family: "proxima-bold";
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #60d399;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 5px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  width: 56px;
+
+  p {
+    margin: 0;
+    margin-left: 5px;
+    padding: 0;
+  }
+}
+.liveWatching {
+  padding: 10px 10px;
+  display: flex;
+  background-color: #60d39952;
+  overflow-x: auto;
+}
+.liveavatarcontainer {
+  margin-left: 10px;
+}
+.liveusers__avatar {
+  border-radius: 50%;
+}
+.header__text {
+  font-family: "proxima-bold";
+  font-size: 18px;
+  font-weight: 700;
+}
