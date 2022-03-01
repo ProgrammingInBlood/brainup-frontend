@@ -110,120 +110,119 @@ function MessageLiveChat() {
   return (
     <div>
       <div className={styles.chatBox}>
-        <div className={styles.chatBox__header}>
-          {!selectedConversationUser ? (
-            <div style={{ padding: 20 }}>
-              <h1>No messages.</h1>
-              <h4>Go to someone's profile to invite them to a conversation.</h4>
-            </div>
-          ) : (
-            <>
-              <div className={styles.userDetails}>
-                <div
-                  className={styles.avatar}
-                  onClick={() =>
-                    router.push(`/users/${selectedConversationUser?._id}`)
+        {!selectedConversationUser ? (
+          <div style={{ padding: 20 }}>
+            <h1>No messages.</h1>
+            <h4>Go to someone's profile to invite them to a conversation.</h4>
+          </div>
+        ) : (
+          <>
+            <div className={styles.userDetails}>
+              <div
+                className={styles.avatar}
+                onClick={() =>
+                  router.push(`/users/${selectedConversationUser?._id}`)
+                }
+              >
+                <Image
+                  src={
+                    selectedConversationUser?.avatar
+                      ? selectedConversationUser?.avatar
+                      : "/images/no-avatar.png"
                   }
-                >
-                  <Image
-                    src={
-                      selectedConversationUser?.avatar
-                        ? selectedConversationUser?.avatar
-                        : "/images/no-avatar.png"
-                    }
-                    alt="avatar"
-                    width={50}
-                    height={50}
-                    className={styles.avatarImage}
-                  />
-                  <h3>{selectedConversationUser?.username}</h3>
-                </div>
-                <p>BLOCK/REPORT USER</p>
+                  alt="avatar"
+                  width={50}
+                  height={50}
+                  className={styles.avatarImage}
+                />
+                <h3>{selectedConversationUser?.username}</h3>
               </div>
-              <div className={styles.allMessages} ref={messagesContainerRef}>
-                {messagesContainer.map((message) => {
-                  //convert timestamp to hour time
-                  const formattedTime = moment(message.created_at).fromNow();
+              <p>BLOCK/REPORT USER</p>
+            </div>
+            <div className={styles.allMessages} ref={messagesContainerRef}>
+              {messagesContainer.map((message) => {
+                //convert timestamp to hour time
+                const formattedTime = moment(message.created_at).fromNow();
 
-                  return (
-                    <div
-                      key={message.created_at}
-                      className={
-                        message.senderId === user.userId
-                          ? styles.messageBox
-                          : styles.messageBox_reciver
-                      }
-                    >
-                      {/* show sender id Username */}
-                      <div className={styles.messageBox__sender__wrapper}>
-                        <div
-                          className={
-                            message.senderId === user.userId
-                              ? styles.messageBox__sender
-                              : styles.messageBox__sender_reciver
-                          }
-                        >
-                          {message.senderId === user.userId ? (
-                            <>
-                              <h3>
-                                {message.senderId === user.userId
-                                  ? data.username
-                                  : selectedConversationUser.username}
-                              </h3>
-                              <p>{formattedTime}</p>
-                              <Image
-                                src={
-                                  message.senderId === user.userId
-                                    ? data.avatar
-                                    : selectedConversationUser.avatar
-                                }
-                                alt="check"
-                                className={styles.messageAvatar}
-                                width={20}
-                                height={20}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              <p>{formattedTime}</p>
-                              <h3>
-                                {message.senderId === user.userId
-                                  ? data.username
-                                  : selectedConversationUser.username}
-                              </h3>
-                              <Image
-                                src={
-                                  message.senderId === user.userId
-                                    ? data.avatar
-                                    : selectedConversationUser.avatar
-                                }
-                                alt="check"
-                                className={styles.messageAvatar}
-                                width={20}
-                                height={20}
-                              />
-                            </>
-                          )}
-                        </div>
-                        <div
-                          className={
-                            message.senderId === user.userId
-                              ? styles.userBox
-                              : styles.userBox_reciver
-                          }
-                        >
-                          <div className={styles.messageBody}>
-                            {message.message}
-                          </div>
+                return (
+                  <div
+                    key={message.created_at}
+                    className={
+                      message.senderId === user.userId
+                        ? styles.messageBox
+                        : styles.messageBox_reciver
+                    }
+                  >
+                    {/* show sender id Username */}
+                    <div className={styles.messageBox__sender__wrapper}>
+                      <div
+                        className={
+                          message.senderId === user.userId
+                            ? styles.messageBox__sender
+                            : styles.messageBox__sender_reciver
+                        }
+                      >
+                        {message.senderId === user.userId ? (
+                          <>
+                            <h3>
+                              {message.senderId === user.userId
+                                ? data.username
+                                : selectedConversationUser.username}
+                            </h3>
+                            <p>{formattedTime}</p>
+                            <Image
+                              src={
+                                message.senderId === user.userId
+                                  ? data.avatar
+                                  : selectedConversationUser.avatar
+                              }
+                              alt="check"
+                              className={styles.messageAvatar}
+                              width={20}
+                              height={20}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <p>{formattedTime}</p>
+                            <h3>
+                              {message.senderId === user.userId
+                                ? data.username
+                                : selectedConversationUser.username}
+                            </h3>
+                            <Image
+                              src={
+                                message.senderId === user.userId
+                                  ? data.avatar
+                                  : selectedConversationUser.avatar
+                              }
+                              alt="check"
+                              className={styles.messageAvatar}
+                              width={20}
+                              height={20}
+                            />
+                          </>
+                        )}
+                      </div>
+                      <div
+                        className={
+                          message.senderId === user.userId
+                            ? styles.userBox
+                            : styles.userBox_reciver
+                        }
+                      >
+                        <div className={styles.messageBody}>
+                          {message.message}
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
-        </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+
         <div
           className={styles.inputBox}
           style={{ display: selectedConversationUser ? "flex" : "none" }}

@@ -1,5 +1,5 @@
 .container {
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,13 +237,17 @@
 
 .allMessages {
   width: 100%;
-  height: 68vh;
+  padding: 10px;
+  height: calc(100% - 155px);
   overflow-y: auto;
   padding-left: 20px;
-  @media (max-width: 768px) {
-    padding: 10px;
-    height: 74vh;
-  }
+}
+.allComments {
+  width: 100%;
+  padding: 10px;
+  height: calc(100% - 200px);
+  overflow-y: auto;
+  padding-left: 20px;
 }
 
 .messageAvatar {

@@ -132,176 +132,173 @@ function MessageLiveChat() {
   return (
     <div>
       <div className={styles.chatBox}>
-        <div className={styles.chatBox__header}>
-          <>
-            <div style={{ display: "flex" }}>
-              <div className={styles.header}>
-                <span onClick={() => router.back()}>
+        <>
+          <div style={{ display: "flex" }}>
+            <div className={styles.header}>
+              <span onClick={() => router.back()}>
+                <Image
+                  src="/images/back.png"
+                  alt="avatar"
+                  width={30}
+                  height={30}
+                  className={styles.header__back}
+                />
+              </span>
+              <div className={styles.header__text}>
+                <h3>Comments / Discussions</h3>
+              </div>
+            </div>
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                paddingRight: 20,
+              }}
+            >
+              <SpinnerRoundFilled
+                size={50}
+                thickness={100}
+                speed={75}
+                color="#36ad47"
+              />
+              <p style={{ color: "#36ad47", fontFamily: "Proxima-Bold" }}>
+                Live
+              </p>
+            </span>
+          </div>
+          <div className={styles.liveWatching}>
+            <span className={styles.liveCount}>
+              <svg
+                id="SvgjsSvg1001"
+                width="20"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                xmlnsSvgjs="http://svgjs.com/svgjs"
+              >
+                <defs id="SvgjsDefs1002"></defs>
+                <g id="SvgjsG1008">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 48 48"
+                  >
+                    <path fill="none" d="M0 0h48v48h-48z"></path>
+                    <path
+                      d="M24 9c-10 0-18.54 6.22-22 15 3.46 8.78 12 15 22 15 10.01 0 18.54-6.22 22-15-3.46-8.78-11.99-15-22-15zm0 25c-5.52 0-10-4.48-10-10s4.48-10 10-10 10 4.48 10 10-4.48 10-10 10zm0-16c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"
+                      fill="#ffffff"
+                      class="color000 svgShape"
+                    ></path>
+                  </svg>
+                </g>
+              </svg>
+              <p>{activeUsers.length}</p>
+            </span>
+
+            <div className={styles.liveusers}>
+              {activeUsers?.map((user) => (
+                <span
+                  className={styles.liveavatarcontainer}
+                  title={user?.username}
+                  key={user?.userId}
+                  onClick={() => router.push(`/users/${user?.userId}`)}
+                >
                   <Image
-                    src="/images/back.png"
+                    src={user?.avatar ? user?.avatar : "/images/no-avatar.png"}
                     alt="avatar"
-                    width={30}
-                    height={30}
-                    className={styles.header__back}
+                    width={25}
+                    height={25}
+                    className={styles.liveusers__avatar}
                   />
                 </span>
-                <div className={styles.header__text}>
-                  <h3>Comments / Discussions</h3>
-                </div>
-              </div>
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  paddingRight: 20,
-                }}
-              >
-                <SpinnerRoundFilled
-                  size={50}
-                  thickness={100}
-                  speed={75}
-                  color="#36ad47"
-                />
-                <p style={{ color: "#36ad47", fontFamily: "Proxima-Bold" }}>
-                  Live
-                </p>
-              </span>
+              ))}
             </div>
-            <div className={styles.liveWatching}>
-              <span className={styles.liveCount}>
-                <svg
-                  id="SvgjsSvg1001"
-                  width="20"
-                  height="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  version="1.1"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  xmlnsSvgjs="http://svgjs.com/svgjs"
+          </div>
+          <div className={styles.allComments} ref={messagesContainerRef}>
+            {messagesContainer.map((message) => {
+              //convert timestamp to hour time
+              const formattedTime = moment(message.created_at).fromNow();
+
+              return (
+                <div
+                  key={message.created_at}
+                  className={
+                    message.senderId?._id === user.userId
+                      ? styles.messageBox
+                      : styles.messageBox_reciver
+                  }
                 >
-                  <defs id="SvgjsDefs1002"></defs>
-                  <g id="SvgjsG1008">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                    >
-                      <path fill="none" d="M0 0h48v48h-48z"></path>
-                      <path
-                        d="M24 9c-10 0-18.54 6.22-22 15 3.46 8.78 12 15 22 15 10.01 0 18.54-6.22 22-15-3.46-8.78-11.99-15-22-15zm0 25c-5.52 0-10-4.48-10-10s4.48-10 10-10 10 4.48 10 10-4.48 10-10 10zm0-16c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"
-                        fill="#ffffff"
-                        class="color000 svgShape"
-                      ></path>
-                    </svg>
-                  </g>
-                </svg>
-                <p>{activeUsers.length}</p>
-              </span>
-
-              <div className={styles.liveusers}>
-                {activeUsers?.map((user) => (
-                  <span
-                    className={styles.liveavatarcontainer}
-                    title={user?.username}
-                    key={user?.userId}
-                    onClick={() => router.push(`/users/${user?.userId}`)}
-                  >
-                    <Image
-                      src={
-                        user?.avatar ? user?.avatar : "/images/no-avatar.png"
+                  {/* show sender id Username */}
+                  <div className={styles.messageBox__sender__wrapper}>
+                    <div
+                      className={
+                        message?.senderId?._id === user.userId
+                          ? styles.messageBox__sender
+                          : styles.messageBox__sender_reciver
                       }
-                      alt="avatar"
-                      width={25}
-                      height={25}
-                      className={styles.liveusers__avatar}
-                    />
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className={styles.allMessages} ref={messagesContainerRef}>
-              {messagesContainer.map((message) => {
-                //convert timestamp to hour time
-                const formattedTime = moment(message.created_at).fromNow();
-
-                return (
-                  <div
-                    key={message.created_at}
-                    className={
-                      message.senderId?._id === user.userId
-                        ? styles.messageBox
-                        : styles.messageBox_reciver
-                    }
-                  >
-                    {/* show sender id Username */}
-                    <div className={styles.messageBox__sender__wrapper}>
-                      <div
-                        className={
-                          message?.senderId?._id === user.userId
-                            ? styles.messageBox__sender
-                            : styles.messageBox__sender_reciver
-                        }
-                      >
-                        {message?.senderId?._id === user.userId ? (
-                          <>
-                            <h3 style={{ margin: "0 10px" }}>
-                              {message.senderId?._id === user.userId
-                                ? data.username
-                                : message.senderId?.username}
-                            </h3>
-                            <p>{formattedTime}</p>
-                            <Image
-                              src={
-                                message.senderId?._id === user.userId
-                                  ? data?.avatar
-                                  : message?.senderId?.avatar
-                              }
-                              alt="check"
-                              className={styles.messageAvatar}
-                              width={20}
-                              height={20}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <p>{formattedTime}</p>
-                            <h3 style={{ margin: "0 6px" }}>
-                              {message.senderId._id === user.userId
-                                ? data.username
-                                : message.senderId?.username}
-                            </h3>
-                            <Image
-                              src={
-                                message?.senderId?._id === user.userId
-                                  ? data?.avatar
-                                  : message?.senderId?.avatar
-                              }
-                              alt="check"
-                              className={styles.messageAvatar}
-                              width={20}
-                              height={20}
-                            />
-                          </>
-                        )}
-                      </div>
-                      <div
-                        className={
-                          message.senderId?._id === user.userId
-                            ? styles.userBox
-                            : styles.userBox_reciver
-                        }
-                      >
-                        <div className={styles.messageBody}>
-                          {message.message}
-                        </div>
+                    >
+                      {message?.senderId?._id === user.userId ? (
+                        <>
+                          <h3 style={{ margin: "0 10px" }}>
+                            {message.senderId?._id === user.userId
+                              ? data.username
+                              : message.senderId?.username}
+                          </h3>
+                          <p>{formattedTime}</p>
+                          <Image
+                            src={
+                              message.senderId?._id === user.userId
+                                ? data?.avatar
+                                : message?.senderId?.avatar
+                            }
+                            alt="check"
+                            className={styles.messageAvatar}
+                            width={20}
+                            height={20}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <p>{formattedTime}</p>
+                          <h3 style={{ margin: "0 6px" }}>
+                            {message.senderId._id === user.userId
+                              ? data.username
+                              : message.senderId?.username}
+                          </h3>
+                          <Image
+                            src={
+                              message?.senderId?._id === user.userId
+                                ? data?.avatar
+                                : message?.senderId?.avatar
+                            }
+                            alt="check"
+                            className={styles.messageAvatar}
+                            width={20}
+                            height={20}
+                          />
+                        </>
+                      )}
+                    </div>
+                    <div
+                      className={
+                        message.senderId?._id === user.userId
+                          ? styles.userBox
+                          : styles.userBox_reciver
+                      }
+                    >
+                      <div className={styles.messageBody}>
+                        {message.message}
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </>
-        </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+
         <div className={styles.inputBox} style={{ display: "flex" }}>
           <TextareaAutosize
             type="text"
