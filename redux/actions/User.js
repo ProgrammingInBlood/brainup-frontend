@@ -156,6 +156,7 @@ export const getMessages = (id) => async (dispatch) => {
         },
       })
       .then((res) => {
+        console.log(res);
         if (res.data.success) {
           dispatch({
             type: actionTypes.GET_MESSAGES_SUCCESS,
@@ -191,7 +192,6 @@ export const getUserById = (id) => async (dispatch) => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           dispatch({
             type: actionTypes.GET_USER_BY_ID_SUCCESS,

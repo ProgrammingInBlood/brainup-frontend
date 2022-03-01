@@ -1,4 +1,5 @@
 import axios from "axios";
+import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -53,6 +54,10 @@ function Dashboard() {
   return (
     <>
       <div className={styles.conatiner}>
+        <Head>
+          <title>BrainFreak - Get Homework Done Instantly</title>
+          <meta name="theme-color" content="#57b2f8" />
+        </Head>
         <div className={styles.header}>
           <div className={styles.searchBar}>
             <input

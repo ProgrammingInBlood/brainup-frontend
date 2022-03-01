@@ -40,27 +40,7 @@ function profile() {
   }, [data]);
 
   const handleConversation = async () => {
-    await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/conversations`,
-        {
-          receiverId: data.userId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (res.data.success) {
-          console.log(res.data);
-        } else {
-          console.log(res.data);
-        }
-      });
-
-    router.push(`/messages?id=${id}`);
+    router.push(`/messages/${id}`);
   };
 
   const handleFollow = async () => {

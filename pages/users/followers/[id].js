@@ -37,6 +37,8 @@ function Followers() {
     }
   }, [id]);
 
+  console.log(data);
+
   return (
     <div>
       <div className={styles.header}>

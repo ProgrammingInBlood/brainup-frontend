@@ -26,15 +26,10 @@
 
 .messages {
   padding: 20px;
-  padding-top: 0;
-  min-height: 90vh;
-  max-height: 90vh;
+  padding-top: 20px;
+  min-height: 100vh;
   overflow-y: auto;
-  width: 40%;
-  @media (max-width: 768px) {
-    width: 100%;
-    // display: none;
-  }
+  width: 100%;
 }
 
 .messages__header {
@@ -48,8 +43,10 @@
   }
 }
 .chatBox {
-  width: 60%;
-  min-height: 90vh;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
   border-left: 2px solid #ebf2f7;
   background-color: white;
   position: relative;
