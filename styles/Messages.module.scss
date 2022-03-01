@@ -50,10 +50,8 @@
   border-left: 2px solid #ebf2f7;
   background-color: white;
   position: relative;
-  @media (max-width: 768px) {
-    width: 100%;
-    position: absolute;
-  }
+  width: 100%;
+  position: absolute;
 }
 .chatBox__header {
   padding: 0px;
