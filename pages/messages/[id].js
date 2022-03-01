@@ -122,7 +122,7 @@ function MessageLiveChat() {
                 <div
                   className={styles.avatar}
                   onClick={() =>
-                    router.push(`/users/${selectedConversationUser?.userId}`)
+                    router.push(`/users/${selectedConversationUser?._id}`)
                   }
                 >
                   <Image
