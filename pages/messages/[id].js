@@ -51,29 +51,34 @@ function MessageLiveChat() {
   }, [messagesContainer]);
 
   const handleMessageSend = async () => {
-    console.log({ message, receiverId: selectedConversationUser?._id });
     if (message) {
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/messages`,
-          { message: message, receiverId: selectedConversationUser._id },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          if (res.data.success) {
-            socket.current.emit("message", {
-              message,
-              senderId: user?.userId,
-              receiverId: selectedConversationUser?.userId,
-            });
-            setMessage("");
-          }
-        });
+      socket.current.emit("message", {
+        message,
+        senderId: user?.userId,
+        receiverId: selectedConversationUser?._id,
+      });
+
+      try {
+        await axios
+          .post(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/messages`,
+            { message: message, receiverId: selectedConversationUser._id },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then(async (res) => {
+            console.log(res);
+
+            if (res.data.success) {
+              setMessage("");
+            }
+          });
+      } catch (err) {
+        console.log(err);
+      }
     }
     scrollToBottom();
   };
@@ -142,7 +147,7 @@ function MessageLiveChat() {
 
                   return (
                     <div
-                      key={message._id}
+                      key={message.created_at}
                       className={
                         message.senderId === user.userId
                           ? styles.messageBox
