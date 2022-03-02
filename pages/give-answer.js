@@ -1,39 +1,32 @@
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/giveAnswer.module.scss";
 import moment from "moment";
 import { SpinnerCircular } from "spinners-react";
 import Navigation from "../components/Navigation";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function giveAnswer() {
   const router = useRouter();
+  const mainConatiner = useRef();
   const [questions, setQuestions] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchData();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
+  useEffect(() => {
+    setHasMore(page <= totalPages);
+  }, [page, totalPages]);
 
-  const handleScroll = () => {
-    if (
-      Math.ceil(window.innerHeight + document.documentElement.scrollTop) <=
-        document.documentElement.offsetHeight ||
-      isFetching
-    ) {
-      return;
-    }
-    setIsFetching(true);
-  };
+  console.log({ hasMore });
 
   const fetchData = async () => {
+    console.log("fetching");
     if (page <= totalPages) {
       await axios
         .get(
@@ -46,30 +39,17 @@ function giveAnswer() {
         )
         .then((res) => {
           if (res.data.success) {
-            setQuestions((question) => {
-              return [...question, ...res.data.Allquestions];
-            });
-            setTotalPages(res.data.totalPages);
-            setPage(page + 1);
+            console.log({ res });
+            setQuestions((question) => [...question, ...res.data.Allquestions]);
+            setTotalPages(parseInt(res.data.totalPages));
+            setPage(parseInt(res.data.currentPage) + 1);
           }
         });
     }
   };
 
-  console.log({ page, totalPages, questions });
-
-  useEffect(() => {
-    if (!isFetching) return;
-    fetchMoreListItems();
-  }, [isFetching]);
-
-  const fetchMoreListItems = () => {
-    fetchData();
-    setIsFetching(false);
-  };
-
   return (
-    <div style={{ paddingBottom: 100 }}>
+    <div ref={mainConatiner}>
       <div className={styles.header}>
         <span onClick={() => router.back()}>
           <Image
@@ -83,56 +63,73 @@ function giveAnswer() {
         <p>Give Answer</p>
       </div>
 
-      {questions.map((q) => {
-        const author = q.author;
-        //time ago with moment
-        const time = moment(q.created_at).fromNow();
-
-        return (
-          <div
-            className={styles.question}
-            key={q._id}
-            onClick={() => router.push(`/question/${q?._id}`)}
-          >
-            <div className={styles.questionDetails}>
-              <Image
-                src={author.avatar}
-                alt="avatar"
-                width={20}
-                height={20}
-                className={styles.questionDetails__avatar}
+      <InfiniteScroll
+        dataLength={questions.length} //This is important field to render the next data
+        next={fetchData}
+        hasMore={hasMore}
+        height={window.innerHeight - 100}
+        loader={
+          <h4>
+            <div
+              className={styles.question}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SpinnerCircular
+                size={30}
+                color={"#00a550"}
+                secondaryColor={"#b2b2b2"}
               />
-
-              <h5 className={styles.questionDetails__name}>
-                {author.username}
-              </h5>
-              <p className={styles.dots}>•</p>
-              <h6>{time}</h6>
-              <p className={styles.dots}>•</p>
-              <h6 className={styles.subject}>{q.subject}</h6>
-            </div>
-            <p className={styles.questiontext}>{q.question}</p>
-            <p className={styles.answers}>
-              {q.answers.length}{" "}
-              {q.answers.length <= 1 ? " answer" : " answers"}
-            </p>
-          </div>
-        );
-      })}
-      <div
-        className={styles.question}
-        style={{
-          display: isFetching ? "flex" : "none",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+            </div>{" "}
+          </h4>
+        }
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
       >
-        <SpinnerCircular
-          size={30}
-          color={"#00a550"}
-          secondaryColor={"#b2b2b2"}
-        />
-      </div>
+        {questions.map((q) => {
+          const author = q.author;
+          //time ago with moment
+          const time = moment(q.created_at).fromNow();
+
+          return (
+            <div
+              className={styles.question}
+              key={q._id}
+              onClick={() => router.push(`/question/${q?._id}`)}
+            >
+              <div className={styles.questionDetails}>
+                <Image
+                  src={author.avatar}
+                  alt="avatar"
+                  width={20}
+                  height={20}
+                  className={styles.questionDetails__avatar}
+                />
+
+                <h5 className={styles.questionDetails__name}>
+                  {author.username}
+                </h5>
+                <p className={styles.dots}>•</p>
+                <h6>{time}</h6>
+                <p className={styles.dots}>•</p>
+                <h6 className={styles.subject}>{q.subject}</h6>
+              </div>
+              <p className={styles.questiontext}>{q.question}</p>
+              <p className={styles.answers}>
+                {q.answers.length}{" "}
+                {q.answers.length <= 1 ? " answer" : " answers"}
+              </p>
+            </div>
+          );
+        })}
+      </InfiniteScroll>
+
       <Navigation />
     </div>
   );
