@@ -85,24 +85,26 @@ function MessageLiveChat() {
   };
 
   useEffect(() => {
-    socket.emit("active", user?.userId);
-    socket.on("online", (users) => {
-      console.log(users);
-      console.log("online");
-    });
-    socket.on("getMessage", (message) => {
-      console.log(message);
-      setMessagesContainer((previousMessages) => [
-        ...previousMessages,
-        message,
-      ]);
-      console.log("getMessage");
-    });
+    if (socket) {
+      socket.emit("active", user?.userId);
+      socket.on("online", (users) => {
+        console.log(users);
+        console.log("online");
+      });
+      socket.on("getMessage", (message) => {
+        console.log(message);
+        setMessagesContainer((previousMessages) => [
+          ...previousMessages,
+          message,
+        ]);
+        console.log("getMessage");
+      });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
 
   if (loading) {
     return <Loading />;

@@ -13,11 +13,12 @@ import styles from "../.././styles/Messages.module.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import io from "socket.io-client";
 import moment from "moment";
+import { useSocket } from "../../websocket/websocket";
 
 function profile() {
   const router = useRouter();
   const { id } = router.query;
-  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/chats`));
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_SERVER_URL}/chats`);
   const messagesContainerRef = useRef();
   //REDUX FOR USER
   const userDetails = useSelector((state) => state.user);
@@ -42,24 +43,26 @@ function profile() {
   };
 
   useEffect(() => {
-    socket.emit("active", user?.userId);
-    socket.on("online", (users) => {
-      console.log(users);
-      console.log("online");
-    });
-    socket.on("getMessage", (message) => {
-      console.log(message);
-      setMessagesContainer((previousMessages) => [
-        ...previousMessages,
-        message,
-      ]);
-      console.log("getMessage");
-    });
+    if (socket) {
+      socket.emit("active", user?.userId);
+      socket.on("online", (users) => {
+        console.log(users);
+        console.log("online");
+      });
+      socket.on("getMessage", (message) => {
+        console.log(message);
+        setMessagesContainer((previousMessages) => [
+          ...previousMessages,
+          message,
+        ]);
+        console.log("getMessage");
+      });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
 
   if (loading) {
     return <Loading />;
