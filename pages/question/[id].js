@@ -11,13 +11,14 @@ import {
 } from "../../redux/actions/User";
 import Loading from "../../components/Loading";
 import axios from "axios";
+import { useSocket } from "../../websocket/websocket";
 
 function Question() {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
 
-  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`));
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`);
   const auth = useSelector((state) => state.authentication);
   const { user } = auth;
   const [activeUsers, setActiveUsers] = useState([]);
@@ -62,25 +63,25 @@ function Question() {
   }, [user, question]);
 
   useEffect(() => {
-    if (id) {
-      if (socket.current.disconnected) {
-        socket.current.connect();
+    if (id && socket) {
+      if (socket.disconnected) {
+        socket.connect();
       }
-      console.log({ id: id + " running", socket });
-      socket.current.emit("active", user?.userId, id);
+      socket.emit("active", user?.userId, id);
 
-      socket.current.on("getActiveUsers", (users) => {
+      socket.on("getActiveUsers", (users) => {
         console.log({ users });
         setActiveUsers(users?.activeUsers);
       });
-      socket.current.on("getAnswer", (answer) => {
+      socket.on("getAnswer", (answer) => {
         console.log(answer);
         setAnswers((old) => [...old, answer]);
       });
+
+      return () => {
+        socket.close();
+      };
     }
-    return () => {
-      socket.current.close();
-    };
   }, [id, socket]);
 
   console.log(activeUsers);

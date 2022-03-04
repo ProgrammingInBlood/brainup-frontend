@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
+import { useSocket } from "../websocket/websocket";
 import styles from "./Dashboard.module.scss";
 import Navigation from "./Navigation";
 
@@ -14,17 +14,20 @@ function Dashboard() {
   const [questionDetails, setQuestionDetails] = useState([]);
   const [brainlistQuestions, setBrainlistQuestions] = useState([]);
 
-  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`));
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`);
 
   useEffect(() => {
-    socket.current.on("activeQuestions", (questions) => {
-      console.log(questions);
-      setQuestions(questions.top);
-    });
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
+    if (socket) {
+      socket.on("activeQuestions", (questions) => {
+        console.log(questions);
+        setQuestions(questions.top);
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
 
   console.log({ questions });
 

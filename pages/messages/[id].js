@@ -9,12 +9,13 @@ import styles from "../.././styles/Messages.module.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import io from "socket.io-client";
 import moment from "moment";
+import { useSocket } from "../../websocket/websocket";
 
 function MessageLiveChat() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
-  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/chats`));
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_SERVER_URL}/chats`);
   const messagesContainerRef = useRef();
 
   //REDUX FOR USER
@@ -52,7 +53,7 @@ function MessageLiveChat() {
 
   const handleMessageSend = async () => {
     if (message) {
-      socket.current.emit("message", {
+      socket.emit("message", {
         message,
         senderId: user?.userId,
         receiverId: selectedConversationUser?._id,
@@ -84,12 +85,12 @@ function MessageLiveChat() {
   };
 
   useEffect(() => {
-    socket.current.emit("active", user?.userId);
-    socket.current.on("online", (users) => {
+    socket.emit("active", user?.userId);
+    socket.on("online", (users) => {
       console.log(users);
       console.log("online");
     });
-    socket.current.on("getMessage", (message) => {
+    socket.on("getMessage", (message) => {
       console.log(message);
       setMessagesContainer((previousMessages) => [
         ...previousMessages,
@@ -99,7 +100,7 @@ function MessageLiveChat() {
     });
 
     return () => {
-      socket.current.disconnect();
+      socket.disconnect();
     };
   }, []);
 

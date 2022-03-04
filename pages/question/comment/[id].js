@@ -10,12 +10,13 @@ import TextareaAutosize from "react-textarea-autosize";
 import io from "socket.io-client";
 import moment from "moment";
 import { SpinnerRoundFilled } from "spinners-react";
+import { useSocket } from "../../../websocket/websocket";
 
 function MessageLiveChat() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
-  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments`));
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments`);
   const messagesContainerRef = useRef();
 
   //REDUX FOR USER
@@ -59,8 +60,6 @@ function MessageLiveChat() {
       } catch (err) {
         console.log(err);
       }
-      console.log(id);
-      socket.current.emit("active", { userId: user?.userId, answerId: id });
     }
   }, [id]);
 
@@ -73,7 +72,7 @@ function MessageLiveChat() {
   const handleMessageSend = async () => {
     if (message) {
       console.log("sent");
-      socket.current.emit("message", {
+      socket.emit("message", {
         message,
         senderId: {
           _id: data?.userId,
@@ -107,23 +106,26 @@ function MessageLiveChat() {
   };
 
   useEffect(() => {
-    socket.current.on("online", (users) => {
-      setActiveUsers(users);
-    });
+    if (socket) {
+      socket.emit("active", { userId: user?.userId, answerId: id });
+      socket.on("online", (users) => {
+        setActiveUsers(users);
+      });
 
-    socket.current.on("getMessage", (message) => {
-      console.log(message);
-      setMessagesContainer((previousMessages) => [
-        ...previousMessages,
-        message,
-      ]);
-      console.log("gotMessage");
-    });
+      socket.on("getMessage", (message) => {
+        console.log(message);
+        setMessagesContainer((previousMessages) => [
+          ...previousMessages,
+          message,
+        ]);
+        console.log("gotMessage");
+      });
 
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
 
   if (loading) {
     return <Loading />;

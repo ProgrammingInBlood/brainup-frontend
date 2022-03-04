@@ -58,7 +58,7 @@ function GiveAnswer() {
       )
       .then((res) => {
         if (res.data.success) {
-          socket.current.emit("answer", {
+          socket.emit("answer", {
             userId: user?.userId,
             questionId: id,
             answer,

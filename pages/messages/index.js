@@ -42,12 +42,12 @@ function profile() {
   };
 
   useEffect(() => {
-    socket.current.emit("active", user?.userId);
-    socket.current.on("online", (users) => {
+    socket.emit("active", user?.userId);
+    socket.on("online", (users) => {
       console.log(users);
       console.log("online");
     });
-    socket.current.on("getMessage", (message) => {
+    socket.on("getMessage", (message) => {
       console.log(message);
       setMessagesContainer((previousMessages) => [
         ...previousMessages,
@@ -57,7 +57,7 @@ function profile() {
     });
 
     return () => {
-      socket.current.disconnect();
+      socket.disconnect();
     };
   }, []);
 
