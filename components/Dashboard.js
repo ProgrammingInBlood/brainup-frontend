@@ -58,7 +58,6 @@ function Dashboard() {
     <>
       <div className={styles.conatiner}>
         <Head>
-          <title>BrainFreak - Get Homework Done Instantly</title>
           <meta name="theme-color" content="#57b2f8" />
         </Head>
         <div className={styles.header}>
