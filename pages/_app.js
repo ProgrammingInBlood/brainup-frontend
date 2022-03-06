@@ -1,12 +1,27 @@
 import "../styles/globals.css";
 //import react-redux
 import { Provider } from "react-redux";
-
 import { persistor, store } from "../redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import Head from "next/head";
+import { firebaseCloudMessaging } from "../firebase-messaging-service/webPush";
+import { useEffect } from "react";
+import firebase from "firebase/compat/app";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(async () => {
+    const token = await firebaseCloudMessaging.tokenInlocalforage();
+    console.log(token);
+    if (firebase.apps.length) {
+      if (token) {
+        getMessage();
+      }
+      function getMessage() {
+        const messaging = firebase.messaging();
+        messaging.onMessage((message) => console.log("foreground", message));
+      }
+    }
+  }, []);
   return (
     <Provider store={store}>
       <Head>

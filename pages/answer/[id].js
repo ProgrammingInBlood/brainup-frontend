@@ -8,12 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getQuestionById } from "../../redux/actions/User";
 import { io } from "socket.io-client";
 import Loading from "../../components/Loading";
+import { useSocket } from "../../websocket/websocket";
 
 function GiveAnswer() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
-  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`));
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_SERVER_URL}/question`);
   const userDetails = useSelector((state) => state.user);
   const { question, loading } = userDetails;
 
@@ -64,7 +65,7 @@ function GiveAnswer() {
             answer,
             answerId: res.data.answer._id,
           });
-          router.push(`/question/${id}`);
+          router.replace(`/question/${id}`);
         } else {
           setError(res.data.message);
         }

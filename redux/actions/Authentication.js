@@ -1,6 +1,8 @@
 import axios from "axios";
 import * as actionTypes from "../constants/Authentication";
 import jwt_decode from "jwt-decode";
+import { firebaseCloudMessaging } from "../../firebase-messaging-service/webPush";
+import localforage from "localforage";
 
 const decodeJwt = async (token) => {
   try {
@@ -24,6 +26,20 @@ export const login = (email, password, provider, token) => async (dispatch) => {
           })
           .then(async (res) => {
             if (res.data.success) {
+              const token = await firebaseCloudMessaging.init();
+              if (token) {
+                await axios.post(
+                  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update/fmctoken`,
+                  {
+                    token,
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${res.data.token}`,
+                    },
+                  }
+                );
+              }
               dispatch({
                 type: actionTypes.LOGIN_SUCCESS,
                 payload: await decodeJwt(res.data.token),
@@ -100,6 +116,7 @@ export const verifyOtp = (otp, token) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: actionTypes.LOGOUT });
   localStorage.removeItem("token");
+  localforage.removeItem("fmc_token");
 };
 
 //
