@@ -9,7 +9,6 @@ module.exports = withBundleAnalyzer(
       dest: "public",
       register: true,
       skipWaiting: true,
-      disable: true,
     },
     reactStrictMode: true,
     images: {
