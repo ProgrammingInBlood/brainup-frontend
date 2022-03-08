@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }) {
       try {
         const token = await firebaseCloudMessaging.init();
         if (token) {
+          console.log({ token });
           getMessage();
         }
       } catch (error) {}

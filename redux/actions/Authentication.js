@@ -26,6 +26,7 @@ export const login = (email, password, provider, token) => async (dispatch) => {
           .then(async (res) => {
             if (res.data.success) {
               let FMCtoken = await firebaseCloudMessaging.init();
+              console.log({ FMCtoken });
 
               if (FMCtoken) {
                 await axios.post(
