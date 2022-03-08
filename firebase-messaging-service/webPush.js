@@ -6,12 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 
 export const firebaseCloudMessaging = {
   //checking whether token is available in indexed DB
-
   tokenInlocalforage: async () => {
     return await localforage.getItem("fcm_token");
   },
-  //initializing firebase app
 
+  //initializing firebase app
   init: async function () {
     if (!firebase.apps.length) {
       firebase.initializeApp({
