@@ -26,8 +26,6 @@ function Followings() {
   }, [page, totalPages]);
 
   const fetchData = async () => {
-    console.log("fetching");
-    console.log({ page, totalPages });
     if (page <= totalPages) {
       if (id) {
         try {
@@ -41,7 +39,6 @@ function Followings() {
               }
             )
             .then((res) => {
-              console.log({ res });
               if (res.data.success) {
                 setData((old) => [...old, ...res.data.followings]);
                 setTotalPages(parseInt(res.data.totalPages));
@@ -49,9 +46,7 @@ function Followings() {
               }
               setLoading(false);
             });
-        } catch (err) {
-          console.log(err);
-        }
+        } catch (err) {}
       }
     }
   };

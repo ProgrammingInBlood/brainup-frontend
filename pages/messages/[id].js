@@ -71,15 +71,11 @@ function MessageLiveChat() {
             }
           )
           .then(async (res) => {
-            console.log(res);
-
             if (res.data.success) {
               setMessage("");
             }
           });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
     scrollToBottom();
   };
@@ -87,17 +83,12 @@ function MessageLiveChat() {
   useEffect(() => {
     if (socket) {
       socket.emit("active", user?.userId);
-      socket.on("online", (users) => {
-        console.log(users);
-        console.log("online");
-      });
+      socket.on("online", (users) => {});
       socket.on("getMessage", (message) => {
-        console.log(message);
         setMessagesContainer((previousMessages) => [
           ...previousMessages,
           message,
         ]);
-        console.log("getMessage");
       });
 
       return () => {

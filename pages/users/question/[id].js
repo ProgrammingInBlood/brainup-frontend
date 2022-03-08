@@ -22,7 +22,6 @@ function Index() {
       });
   }, []);
 
-  console.log(questions);
   return (
     <div>
       <div className={styles.header}>

@@ -50,7 +50,6 @@ function ask() {
         }
       )
       .then((res) => {
-        console.log(res.data);
         if (res.data.success) {
           router.push(`/question/${res.data.question._id}`);
         }

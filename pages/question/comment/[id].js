@@ -28,7 +28,7 @@ function MessageLiveChat() {
 
   const auth = useSelector((state) => state.authentication);
   const { user } = auth;
-  console.log(user);
+
   const [messagesContainer, setMessagesContainer] = useState([]);
 
   const scrollToBottom = () => {
@@ -37,7 +37,7 @@ function MessageLiveChat() {
         messagesContainerRef?.current?.scrollHeight;
     }
   };
-  console.log(data);
+
   useEffect(async () => {
     dispatch(getUserDetails());
     if (id) {
@@ -52,18 +52,13 @@ function MessageLiveChat() {
             }
           )
           .then((res) => {
-            console.log(res);
             if (res.data.success) {
               setMessagesContainer(res.data.comments);
             }
           });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
   }, [id]);
-
-  console.log(messagesContainer);
 
   useEffect(() => {
     scrollToBottom();
@@ -71,7 +66,6 @@ function MessageLiveChat() {
 
   const handleMessageSend = async () => {
     if (message) {
-      console.log("sent");
       socket.emit("message", {
         message,
         senderId: {
@@ -97,9 +91,7 @@ function MessageLiveChat() {
               setMessage("");
             }
           });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
 
     scrollToBottom();
@@ -113,12 +105,10 @@ function MessageLiveChat() {
       });
 
       socket.on("getMessage", (message) => {
-        console.log(message);
         setMessagesContainer((previousMessages) => [
           ...previousMessages,
           message,
         ]);
-        console.log("gotMessage");
       });
 
       return () => {

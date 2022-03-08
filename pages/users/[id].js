@@ -27,8 +27,6 @@ function profile() {
     router.push("/profile");
   }
 
-  console.log(data);
-
   useEffect(() => {
     dispatch(getUserById(id));
   }, [id]);
@@ -57,10 +55,8 @@ function profile() {
         )
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data);
             setFollowed(false);
           } else {
-            console.log(res.data);
           }
         });
     } else {
@@ -76,10 +72,8 @@ function profile() {
         )
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data);
             setFollowed(true);
           } else {
-            console.log(res.data);
           }
         });
     }

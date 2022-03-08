@@ -63,8 +63,6 @@ function Registration() {
     checkUsername();
   }, [username]);
 
-  console.log(username.length);
-
   async function submitLogin(e) {
     e.preventDefault();
     setSpinner(true);
@@ -99,7 +97,6 @@ function Registration() {
         }
       )
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setError("");
           setSpinner(false);

@@ -19,14 +19,12 @@ function Index() {
         })
         .then((res) => {
           if (res.data.success) {
-            console.log(res);
             setQuestions(res.data.answers);
           }
         });
     }
   }, [id]);
 
-  console.log(questions);
   return (
     <div>
       <div className={styles.header}>

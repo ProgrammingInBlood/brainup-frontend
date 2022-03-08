@@ -17,7 +17,6 @@ export const login = (email, password, provider, token) => async (dispatch) => {
   switch (provider) {
     case "credentials":
       try {
-        console.log(email, password);
         dispatch({ type: actionTypes.LOGIN_REQUEST });
         await axios
           .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/credentials`, {
@@ -26,12 +25,13 @@ export const login = (email, password, provider, token) => async (dispatch) => {
           })
           .then(async (res) => {
             if (res.data.success) {
-              const token = await firebaseCloudMessaging.init();
-              if (token) {
+              let FMCtoken = await firebaseCloudMessaging.init();
+
+              if (FMCtoken) {
                 await axios.post(
-                  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update/fmctoken`,
+                  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/fcm-token`,
                   {
-                    token,
+                    token: FMCtoken,
                   },
                   {
                     headers: {
@@ -46,7 +46,6 @@ export const login = (email, password, provider, token) => async (dispatch) => {
               });
               localStorage.setItem("token", res.data.token);
             } else {
-              console.log("fail");
               dispatch({
                 type: actionTypes.LOGIN_FAIL,
                 payload: res.data.message,
@@ -113,10 +112,21 @@ export const verifyOtp = (otp, token) => async (dispatch) => {
 };
 
 //
-export const logout = () => (dispatch) => {
-  dispatch({ type: actionTypes.LOGOUT });
-  localStorage.removeItem("token");
-  localforage.removeItem("fmc_token");
+export const logout = () => async (dispatch) => {
+  await axios
+    .post(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .then(async () => {
+      dispatch({ type: actionTypes.LOGOUT });
+      localStorage.removeItem("token");
+    });
 };
 
 //

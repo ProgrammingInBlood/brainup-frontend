@@ -19,7 +19,6 @@ function AuthLoading() {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           dispatch(login("", "", "custom", token));
           router.replace("/");

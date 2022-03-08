@@ -69,7 +69,6 @@ function EditProfile() {
           }
         });
     } catch (err) {
-      console.log(err);
       setError(err.message);
       setUpdateLoading(false);
     }
@@ -88,7 +87,6 @@ function EditProfile() {
             }
           )
           .then((res) => {
-            console.log(res);
             if (res.data.success) {
               router.push("/profile");
               setUpdateLoading(false);

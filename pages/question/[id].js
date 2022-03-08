@@ -28,8 +28,6 @@ function Question() {
   const userDetails = useSelector((state) => state.user);
   const { question, loading } = userDetails;
 
-  console.log(question);
-
   useEffect(() => {
     if (id) {
       dispatch(getQuestionById(id));
@@ -45,7 +43,6 @@ function Question() {
   useEffect(() => {
     setAnswerable(true);
     if (user) {
-      console.log({ check: question?.author?._id, userId: user?.userId });
       if (user?.userId === question?.author?._id) {
         setAnswerable(false);
       }
@@ -56,7 +53,7 @@ function Question() {
     }
     const myself =
       question?.answers?.filter((a) => a.author._id === user?.userId) || [];
-    console.log({ myself });
+
     if (myself.length > 0) {
       setAnswerable(false);
     }
@@ -70,11 +67,9 @@ function Question() {
       socket.emit("active", user?.userId, id);
 
       socket.on("getActiveUsers", (users) => {
-        console.log({ users });
         setActiveUsers(users?.activeUsers);
       });
       socket.on("getAnswer", (answer) => {
-        console.log(answer);
         setAnswers((old) => [...old, answer]);
       });
 
@@ -83,8 +78,6 @@ function Question() {
       };
     }
   }, [id, socket]);
-
-  console.log(activeUsers);
 
   const handleAnswer = async () => {
     router.push(`/answer/${id}`);
@@ -102,7 +95,6 @@ function Question() {
         }
       )
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setThanks((old) => [...old, { answerId, thanks: true }]);
         }

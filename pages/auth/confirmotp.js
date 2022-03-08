@@ -34,7 +34,6 @@ function Login() {
         token: query.token,
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setError("");
           setSpinner(false);

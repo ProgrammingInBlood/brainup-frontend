@@ -23,10 +23,7 @@ function giveAnswer() {
     setHasMore(page <= totalPages);
   }, [page, totalPages]);
 
-  console.log({ hasMore });
-
   const fetchData = async () => {
-    console.log("fetching");
     if (page <= totalPages) {
       await axios
         .get(
@@ -39,7 +36,6 @@ function giveAnswer() {
         )
         .then((res) => {
           if (res.data.success) {
-            console.log({ res });
             setQuestions((question) => [...question, ...res.data.Allquestions]);
             setTotalPages(parseInt(res.data.totalPages));
             setPage(parseInt(res.data.currentPage) + 1);

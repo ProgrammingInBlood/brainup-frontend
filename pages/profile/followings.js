@@ -21,15 +21,12 @@ function Followings() {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res.data.success) {
             setData(res.data.followers);
           }
           setLoading(false);
         });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }, []);
 
   return (

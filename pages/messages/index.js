@@ -24,7 +24,6 @@ function profile() {
   const userDetails = useSelector((state) => state.user);
   const { loading, conversations, error, messages, data } = userDetails;
 
-  console.log(conversations);
   const [selectedConversationUser, setSelectedConversationUser] = useState("");
   const [message, setMessage] = useState("");
 
@@ -45,17 +44,12 @@ function profile() {
   useEffect(() => {
     if (socket) {
       socket.emit("active", user?.userId);
-      socket.on("online", (users) => {
-        console.log(users);
-        console.log("online");
-      });
+      socket.on("online", (users) => {});
       socket.on("getMessage", (message) => {
-        console.log(message);
         setMessagesContainer((previousMessages) => [
           ...previousMessages,
           message,
         ]);
-        console.log("getMessage");
       });
 
       return () => {

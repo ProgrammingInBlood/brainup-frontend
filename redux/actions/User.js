@@ -87,7 +87,6 @@ export const updateAvatar = (avatar) => async (dispatch) => {
         }
       )
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           dispatch({
             type: actionTypes.UPDATE_AVATAR_SUCCESS,
@@ -156,7 +155,6 @@ export const getMessages = (id) => async (dispatch) => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           dispatch({
             type: actionTypes.GET_MESSAGES_SUCCESS,
@@ -182,7 +180,6 @@ export const getMessages = (id) => async (dispatch) => {
 
 //get user by id
 export const getUserById = (id) => async (dispatch) => {
-  console.log(id);
   try {
     dispatch({ type: actionTypes.GET_USER_BY_ID_REQUEST });
     await axios

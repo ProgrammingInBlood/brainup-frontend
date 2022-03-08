@@ -15,7 +15,6 @@ function Index() {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setQuestions(res.data.question);
         }

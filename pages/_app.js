@@ -9,19 +9,28 @@ import { useEffect } from "react";
 import firebase from "firebase/compat/app";
 
 function MyApp({ Component, pageProps }) {
-  useEffect(async () => {
-    const token = await firebaseCloudMessaging.tokenInlocalforage();
-    console.log(token);
-    if (firebase.apps.length) {
-      if (token) {
-        getMessage();
-      }
-      function getMessage() {
-        const messaging = firebase.messaging();
-        messaging.onMessage((message) => console.log("foreground", message));
-      }
+  useEffect(() => {
+    setToken();
+    async function setToken() {
+      try {
+        const token = await firebaseCloudMessaging.init();
+        if (token) {
+          getMessage();
+        }
+      } catch (error) {}
+    }
+    function getMessage() {
+      const messaging = firebase.messaging();
+      messaging.onMessage((message) => {
+        const { title, body } = JSON.parse(message.data.notification);
+        var options = {
+          body,
+        };
+        self.registration.showNotification(title, options);
+      });
     }
   }, []);
+
   return (
     <Provider store={store}>
       <Head>

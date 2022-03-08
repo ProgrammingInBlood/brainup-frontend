@@ -121,7 +121,6 @@ function Login({ session }) {
         password: password,
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setError("");
           setSpinner(false);

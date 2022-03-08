@@ -19,7 +19,6 @@ function Dashboard() {
   useEffect(() => {
     if (socket) {
       socket.on("activeQuestions", (questions) => {
-        console.log(questions);
         setQuestions(questions.top);
       });
 
@@ -28,8 +27,6 @@ function Dashboard() {
       };
     }
   }, [socket]);
-
-  console.log({ questions });
 
   const handleSearch = (e) => {
     if (e.keyCode === 13) {
@@ -51,8 +48,6 @@ function Dashboard() {
     };
     getBrainlistQuestions();
   }, []);
-
-  console.log(brainlistQuestions);
 
   return (
     <>
