@@ -17,11 +17,12 @@ const messaging = firebase.messaging();
 //background notifications will be received here
 messaging.setBackgroundMessageHandler(function (payload) {
   // Customize notification here
-  const { title, body, icon } = JSON.parse(payload.data.notification);
+  const { title, body, icon, link } = JSON.parse(payload.data.notification);
   const notificationTitle = title;
   const notificationOptions = {
     body: body,
     icon: icon || "/icons/android-icon-144x144.png",
+    click_action: link,
   };
 
   return self.registration.showNotification(
