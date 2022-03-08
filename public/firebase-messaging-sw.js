@@ -18,15 +18,24 @@ const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function (payload) {
   // Customize notification here
   const { title, body, icon, link } = JSON.parse(payload.data.notification);
+  console.log(JSON.parse(payload.data.notification));
   const notificationTitle = title;
   const notificationOptions = {
     body: body,
     icon: icon || "/icons/android-icon-144x144.png",
-    click_action: link,
+    data: { url: link }, //the url which we gonna use later
   };
+
+  //open url on click of notification
 
   return self.registration.showNotification(
     notificationTitle,
     notificationOptions
   );
+});
+
+self.addEventListener("notificationclick", function (event) {
+  console.log({ event });
+  event.notification.close();
+  event.waitUntil(clients.openWindow(event.notification.data.url));
 });
